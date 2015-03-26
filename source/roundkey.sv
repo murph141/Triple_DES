@@ -4,4 +4,4 @@
 // Author:      Seth Bontrager
 // Lab Section: 337-04
 // Version:     1.0  Initial Design Entry
-// Description: .
+// Description: Round Key Generation
