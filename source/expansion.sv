@@ -23,7 +23,7 @@ module expansion
 		RE_32bit[12], RE_32bit[11:8],  RE_32bit[7],
 		RE_32bit[8],  RE_32bit[7:4],   RE_32bit[3],
 		RE_32bit[4],  RE_32bit[3:0],   RE_32bit[31]
-	}
+	};
 	
 
 endmodule
