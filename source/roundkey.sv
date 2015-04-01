@@ -57,25 +57,25 @@ module roundkey
 						  user_key[61], user_key[53], user_key[45], user_key[37], user_key[29], user_key[21],
 						  user_key[13], user_key[5],  user_key[60], user_key[52], user_key[44], user_key[36],
 						  user_key[28], user_key[20], user_key[12], user_key[4],  user_key[27], user_key[19],
-						  user_key[11], user_key[3]}
+						  user_key[11], user_key[3]};
 
 
-	assign rotated_key_1 = {permute_key[1:27], permute_key[0], permute_key[29:55], permute_key[28]}
-	assign rotated_key_2 = {permute_key[2:27], permute_key[0:1], permute_key[30:55], permute_key[28:29]}
-	assign rotated_key_3 = {permute_key[4:27], permute_key[0:3], permute_key[32:55], permute_key[28:31]}
-	assign rotated_key_4 = {permute_key[6:27], permute_key[0:5], permute_key[34:55], permute_key[28:33]}
-	assign rotated_key_5 = {permute_key[8:27], permute_key[0:7], permute_key[36:55], permute_key[28:35]}
-	assign rotated_key_6 = {permute_key[10:27], permute_key[0:9], permute_key[38:55], permute_key[28:37]}
-	assign rotated_key_7 = {permute_key[12:27], permute_key[0:11], permute_key[40:55], permute_key[28:39]}
-	assign rotated_key_8 = {permute_key[14:27], permute_key[0:13], permute_key[42:55], permute_key[28:41]}
-	assign rotated_key_9 = {permute_key[15:27], permute_key[0:14], permute_key[43:55], permute_key[28:42]}
-	assign rotated_key_10 = {permute_key[17:27], permute_key[0:16], permute_key[45:55], permute_key[28:44]}
-	assign rotated_key_11 = {permute_key[19:27], permute_key[0:18], permute_key[47:55], permute_key[28:46]}
-	assign rotated_key_12 = {permute_key[21:27], permute_key[0:20], permute_key[49:55], permute_key[28:48]}
-	assign rotated_key_13 = {permute_key[23:27], permute_key[0:22], permute_key[51:55], permute_key[28:50]}
-	assign rotated_key_14 = {permute_key[25:27], permute_key[0:24], permute_key[53:55], permute_key[28:52]}
-	assign rotated_key_15 = {permute_key[27], permute_key[0:26], permute_key[55], permute_key[28:54]}
-	assign rotated_key_16 = permute_key
+	assign rotated_key_1 = {permute_key[1:27], permute_key[0], permute_key[29:55], permute_key[28]};
+	assign rotated_key_2 = {permute_key[2:27], permute_key[0:1], permute_key[30:55], permute_key[28:29]};
+	assign rotated_key_3 = {permute_key[4:27], permute_key[0:3], permute_key[32:55], permute_key[28:31]};
+	assign rotated_key_4 = {permute_key[6:27], permute_key[0:5], permute_key[34:55], permute_key[28:33]};
+	assign rotated_key_5 = {permute_key[8:27], permute_key[0:7], permute_key[36:55], permute_key[28:35]};
+	assign rotated_key_6 = {permute_key[10:27], permute_key[0:9], permute_key[38:55], permute_key[28:37]};
+	assign rotated_key_7 = {permute_key[12:27], permute_key[0:11], permute_key[40:55], permute_key[28:39]};
+	assign rotated_key_8 = {permute_key[14:27], permute_key[0:13], permute_key[42:55], permute_key[28:41]};
+	assign rotated_key_9 = {permute_key[15:27], permute_key[0:14], permute_key[43:55], permute_key[28:42]};
+	assign rotated_key_10 = {permute_key[17:27], permute_key[0:16], permute_key[45:55], permute_key[28:44]};
+	assign rotated_key_11 = {permute_key[19:27], permute_key[0:18], permute_key[47:55], permute_key[28:46]};
+	assign rotated_key_12 = {permute_key[21:27], permute_key[0:20], permute_key[49:55], permute_key[28:48]};
+	assign rotated_key_13 = {permute_key[23:27], permute_key[0:22], permute_key[51:55], permute_key[28:50]};
+	assign rotated_key_14 = {permute_key[25:27], permute_key[0:24], permute_key[53:55], permute_key[28:52]};
+	assign rotated_key_15 = {permute_key[27], permute_key[0:26], permute_key[55], permute_key[28:54]};
+	assign rotated_key_16 = permute_key;
 
 
 	assign roundkey_1 = {rotated_key_1[13], rotated_key_1[16], rotated_key_1[10], rotated_key_1[23],
@@ -89,7 +89,7 @@ module roundkey
 						 rotated_key_1[50], rotated_key_1[44], rotated_key_1[32], rotated_key_1[47],
 						 rotated_key_1[43], rotated_key_1[48], rotated_key_1[38], rotated_key_1[55],
 						 rotated_key_1[33], rotated_key_1[52], rotated_key_1[45], rotated_key_1[41],
-						 rotated_key_1[49], rotated_key_1[35], rotated_key_1[28], rotated_key_1[31]}
+						 rotated_key_1[49], rotated_key_1[35], rotated_key_1[28], rotated_key_1[31]};
 						
 	assign roundkey_2 = {rotated_key_2[13], rotated_key_2[16], rotated_key_2[10], rotated_key_2[23],
 						 rotated_key_2[0],  rotated_key_2[4],  rotated_key_2[2],  rotated_key_2[27],
@@ -102,7 +102,7 @@ module roundkey
 						 rotated_key_2[50], rotated_key_2[44], rotated_key_2[32], rotated_key_2[47],
 						 rotated_key_2[43], rotated_key_2[48], rotated_key_2[38], rotated_key_2[55],
 						 rotated_key_2[33], rotated_key_2[52], rotated_key_2[45], rotated_key_2[41],
-						 rotated_key_2[49], rotated_key_2[35], rotated_key_2[28], rotated_key_2[31]}
+						 rotated_key_2[49], rotated_key_2[35], rotated_key_2[28], rotated_key_2[31]};
 
 	assign roundkey_3 = {rotated_key_3[13], rotated_key_3[16], rotated_key_3[10], rotated_key_3[23],
 						 rotated_key_3[0],  rotated_key_3[4],  rotated_key_3[2],  rotated_key_3[27],
@@ -115,7 +115,7 @@ module roundkey
 						 rotated_key_3[50], rotated_key_3[44], rotated_key_3[32], rotated_key_3[47],
 						 rotated_key_3[43], rotated_key_3[48], rotated_key_3[38], rotated_key_3[55],
 						 rotated_key_3[33], rotated_key_3[52], rotated_key_3[45], rotated_key_3[41],
-						 rotated_key_3[49], rotated_key_3[35], rotated_key_3[28], rotated_key_3[31]}
+						 rotated_key_3[49], rotated_key_3[35], rotated_key_3[28], rotated_key_3[31]};
 
 	assign roundkey_4 = {rotated_key_4[13], rotated_key_4[16], rotated_key_4[10], rotated_key_4[23],
 						 rotated_key_4[0],  rotated_key_4[4],  rotated_key_4[2],  rotated_key_4[27],
@@ -128,7 +128,7 @@ module roundkey
 						 rotated_key_4[50], rotated_key_4[44], rotated_key_4[32], rotated_key_4[47],
 						 rotated_key_4[43], rotated_key_4[48], rotated_key_4[38], rotated_key_4[55],
 						 rotated_key_4[33], rotated_key_4[52], rotated_key_4[45], rotated_key_4[41],
-						 rotated_key_4[49], rotated_key_4[35], rotated_key_4[28], rotated_key_4[31]}
+						 rotated_key_4[49], rotated_key_4[35], rotated_key_4[28], rotated_key_4[31]};
 
 	assign roundkey_5 = {rotated_key_5[13], rotated_key_5[16], rotated_key_5[10], rotated_key_5[23],
 						 rotated_key_5[0],  rotated_key_5[4],  rotated_key_5[2],  rotated_key_5[27],
@@ -141,7 +141,7 @@ module roundkey
 						 rotated_key_5[50], rotated_key_5[44], rotated_key_5[32], rotated_key_5[47],
 						 rotated_key_5[43], rotated_key_5[48], rotated_key_5[38], rotated_key_5[55],
 						 rotated_key_5[33], rotated_key_5[52], rotated_key_5[45], rotated_key_5[41],
-						 rotated_key_5[49], rotated_key_5[35], rotated_key_5[28], rotated_key_5[31]}
+						 rotated_key_5[49], rotated_key_5[35], rotated_key_5[28], rotated_key_5[31]};
 
 	assign roundkey_6 = {rotated_key_6[13], rotated_key_6[16], rotated_key_6[10], rotated_key_6[23],
 						 rotated_key_6[0],  rotated_key_6[4],  rotated_key_6[2],  rotated_key_6[27],
@@ -154,7 +154,7 @@ module roundkey
 						 rotated_key_6[50], rotated_key_6[44], rotated_key_6[32], rotated_key_6[47],
 						 rotated_key_6[43], rotated_key_6[48], rotated_key_6[38], rotated_key_6[55],
 						 rotated_key_6[33], rotated_key_6[52], rotated_key_6[45], rotated_key_6[41],
-						 rotated_key_6[49], rotated_key_6[35], rotated_key_6[28], rotated_key_6[31]}
+						 rotated_key_6[49], rotated_key_6[35], rotated_key_6[28], rotated_key_6[31]};
 
 	assign roundkey_7 = {rotated_key_7[13], rotated_key_7[16], rotated_key_7[10], rotated_key_7[23],
 						 rotated_key_7[0],  rotated_key_7[4],  rotated_key_7[2],  rotated_key_7[27],
@@ -167,7 +167,7 @@ module roundkey
 						 rotated_key_7[50], rotated_key_7[44], rotated_key_7[32], rotated_key_7[47],
 						 rotated_key_7[43], rotated_key_7[48], rotated_key_7[38], rotated_key_7[55],
 						 rotated_key_7[33], rotated_key_7[52], rotated_key_7[45], rotated_key_7[41],
-						 rotated_key_7[49], rotated_key_7[35], rotated_key_7[28], rotated_key_7[31]}
+						 rotated_key_7[49], rotated_key_7[35], rotated_key_7[28], rotated_key_7[31]};
 
 	assign roundkey_8 = {rotated_key_8[13], rotated_key_8[16], rotated_key_8[10], rotated_key_8[23],
 						 rotated_key_8[0],  rotated_key_8[4],  rotated_key_8[2],  rotated_key_8[27],
@@ -180,7 +180,7 @@ module roundkey
 						 rotated_key_8[50], rotated_key_8[44], rotated_key_8[32], rotated_key_8[47],
 						 rotated_key_8[43], rotated_key_8[48], rotated_key_8[38], rotated_key_8[55],
 						 rotated_key_8[33], rotated_key_8[52], rotated_key_8[45], rotated_key_8[41],
-						 rotated_key_8[49], rotated_key_8[35], rotated_key_8[28], rotated_key_8[31]}
+						 rotated_key_8[49], rotated_key_8[35], rotated_key_8[28], rotated_key_8[31]};
 
 	assign roundkey_9 = {rotated_key_9[13], rotated_key_9[16], rotated_key_9[10], rotated_key_9[23],
 						 rotated_key_9[0],  rotated_key_9[4],  rotated_key_9[2],  rotated_key_9[27],
@@ -193,7 +193,7 @@ module roundkey
 						 rotated_key_9[50], rotated_key_9[44], rotated_key_9[32], rotated_key_9[47],
 						 rotated_key_9[43], rotated_key_9[48], rotated_key_9[38], rotated_key_9[55],
 						 rotated_key_9[33], rotated_key_9[52], rotated_key_9[45], rotated_key_9[41],
-						 rotated_key_9[49], rotated_key_9[35], rotated_key_9[28], rotated_key_9[31]}
+						 rotated_key_9[49], rotated_key_9[35], rotated_key_9[28], rotated_key_9[31]};
 
 	assign roundkey_10 = {rotated_key_10[13], rotated_key_10[16], rotated_key_10[10], rotated_key_10[23],
 						 rotated_key_10[0],  rotated_key_10[4],  rotated_key_10[2],  rotated_key_10[27],
@@ -206,7 +206,7 @@ module roundkey
 						 rotated_key_10[50], rotated_key_10[44], rotated_key_10[32], rotated_key_10[47],
 						 rotated_key_10[43], rotated_key_10[48], rotated_key_10[38], rotated_key_10[55],
 						 rotated_key_10[33], rotated_key_10[52], rotated_key_10[45], rotated_key_10[41],
-						 rotated_key_10[49], rotated_key_10[35], rotated_key_10[28], rotated_key_10[31]}
+						 rotated_key_10[49], rotated_key_10[35], rotated_key_10[28], rotated_key_10[31]};
 
 	assign roundkey_11 = {rotated_key_11[13], rotated_key_11[16], rotated_key_11[10], rotated_key_11[23],
 						 rotated_key_11[0],  rotated_key_11[4],  rotated_key_11[2],  rotated_key_11[27],
@@ -219,7 +219,7 @@ module roundkey
 						 rotated_key_11[50], rotated_key_11[44], rotated_key_11[32], rotated_key_11[47],
 						 rotated_key_11[43], rotated_key_11[48], rotated_key_11[38], rotated_key_11[55],
 						 rotated_key_11[33], rotated_key_11[52], rotated_key_11[45], rotated_key_11[41],
-						 rotated_key_11[49], rotated_key_11[35], rotated_key_11[28], rotated_key_11[31]}
+						 rotated_key_11[49], rotated_key_11[35], rotated_key_11[28], rotated_key_11[31]};
 
 	assign roundkey_12 = {rotated_key_12[13], rotated_key_12[16], rotated_key_12[10], rotated_key_12[23],
 						 rotated_key_12[0],  rotated_key_12[4],  rotated_key_12[2],  rotated_key_12[27],
@@ -232,7 +232,7 @@ module roundkey
 						 rotated_key_12[50], rotated_key_12[44], rotated_key_12[32], rotated_key_12[47],
 						 rotated_key_12[43], rotated_key_12[48], rotated_key_12[38], rotated_key_12[55],
 						 rotated_key_12[33], rotated_key_12[52], rotated_key_12[45], rotated_key_12[41],
-						 rotated_key_12[49], rotated_key_12[35], rotated_key_12[28], rotated_key_12[31]}
+						 rotated_key_12[49], rotated_key_12[35], rotated_key_12[28], rotated_key_12[31]};
 
 	assign roundkey_13 = {rotated_key_13[13], rotated_key_13[16], rotated_key_13[10], rotated_key_13[23],
 						 rotated_key_13[0],  rotated_key_13[4],  rotated_key_13[2],  rotated_key_13[27],
@@ -245,7 +245,7 @@ module roundkey
 						 rotated_key_13[50], rotated_key_13[44], rotated_key_13[32], rotated_key_13[47],
 						 rotated_key_13[43], rotated_key_13[48], rotated_key_13[38], rotated_key_13[55],
 						 rotated_key_13[33], rotated_key_13[52], rotated_key_13[45], rotated_key_13[41],
-						 rotated_key_13[49], rotated_key_13[35], rotated_key_13[28], rotated_key_13[31]}
+						 rotated_key_13[49], rotated_key_13[35], rotated_key_13[28], rotated_key_13[31]};
 
 	assign roundkey_14 = {rotated_key_14[13], rotated_key_14[16], rotated_key_14[10], rotated_key_14[23],
 						 rotated_key_14[0],  rotated_key_14[4],  rotated_key_14[2],  rotated_key_14[27],
@@ -258,7 +258,7 @@ module roundkey
 						 rotated_key_14[50], rotated_key_14[44], rotated_key_14[32], rotated_key_14[47],
 						 rotated_key_14[43], rotated_key_14[48], rotated_key_14[38], rotated_key_14[55],
 						 rotated_key_14[33], rotated_key_14[52], rotated_key_14[45], rotated_key_14[41],
-						 rotated_key_14[49], rotated_key_14[35], rotated_key_14[28], rotated_key_14[31]}
+						 rotated_key_14[49], rotated_key_14[35], rotated_key_14[28], rotated_key_14[31]};
 
 	assign roundkey_15 = {rotated_key_15[13], rotated_key_15[16], rotated_key_15[10], rotated_key_15[23],
 						 rotated_key_15[0],  rotated_key_15[4],  rotated_key_15[2],  rotated_key_15[27],
@@ -271,7 +271,7 @@ module roundkey
 						 rotated_key_15[50], rotated_key_15[44], rotated_key_15[32], rotated_key_15[47],
 						 rotated_key_15[43], rotated_key_15[48], rotated_key_15[38], rotated_key_15[55],
 						 rotated_key_15[33], rotated_key_15[52], rotated_key_15[45], rotated_key_15[41],
-						 rotated_key_15[49], rotated_key_15[35], rotated_key_15[28], rotated_key_15[31]}
+						 rotated_key_15[49], rotated_key_15[35], rotated_key_15[28], rotated_key_15[31]};
 
 	assign roundkey_16 = {rotated_key_16[13], rotated_key_16[16], rotated_key_16[10], rotated_key_16[23],
 						 rotated_key_16[0],  rotated_key_16[4],  rotated_key_16[2],  rotated_key_16[27],
@@ -284,7 +284,7 @@ module roundkey
 						 rotated_key_16[50], rotated_key_16[44], rotated_key_16[32], rotated_key_16[47],
 						 rotated_key_16[43], rotated_key_16[48], rotated_key_16[38], rotated_key_16[55],
 						 rotated_key_16[33], rotated_key_16[52], rotated_key_16[45], rotated_key_16[41],
-						 rotated_key_16[49], rotated_key_16[35], rotated_key_16[28], rotated_key_16[31]}
+						 rotated_key_16[49], rotated_key_16[35], rotated_key_16[28], rotated_key_16[31]};
 
 
 endmodule
