@@ -7,8 +7,6 @@
 // Description: Expansion step in DES
 module expansion
 (
-	input wire clk,
-	input wire n_rst,
 	input wire [31:0] RE_32bit,
 	output wire [47:0] RE_48bit
 );
