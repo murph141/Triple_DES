@@ -10,42 +10,42 @@
 
 module roundkey 
 (
-	input wire [63:0] user_key,
-	output wire [47:0] roundkey_1,
-	output wire [47:0] roundkey_2,
-	output wire [47:0] roundkey_3,
-	output wire [47:0] roundkey_4,
-	output wire [47:0] roundkey_5,
-	output wire [47:0] roundkey_6,
-	output wire [47:0] roundkey_7,
-	output wire [47:0] roundkey_8,
-	output wire [47:0] roundkey_9,
-	output wire [47:0] roundkey_10,
-	output wire [47:0] roundkey_11,
-	output wire [47:0] roundkey_12,
-	output wire [47:0] roundkey_13,
-	output wire [47:0] roundkey_14,
-	output wire [47:0] roundkey_15,
-	output wire [47:0] roundkey_16
+	input wire [0:63] user_key,
+	output wire [0:47] roundkey_1,
+	output wire [0:47] roundkey_2,
+	output wire [0:47] roundkey_3,
+	output wire [0:47] roundkey_4,
+	output wire [0:47] roundkey_5,
+	output wire [0:47] roundkey_6,
+	output wire [0:47] roundkey_7,
+	output wire [0:47] roundkey_8,
+	output wire [0:47] roundkey_9,
+	output wire [0:47] roundkey_10,
+	output wire [0:47] roundkey_11,
+	output wire [0:47] roundkey_12,
+	output wire [0:47] roundkey_13,
+	output wire [0:47] roundkey_14,
+	output wire [0:47] roundkey_15,
+	output wire [0:47] roundkey_16
 );
 
-	wire [55:0] permute_key;
-	wire [55:0] rotated_key_1;
-	wire [55:0] rotated_key_2;
-	wire [55:0] rotated_key_3;
-	wire [55:0] rotated_key_4;
-	wire [55:0] rotated_key_5;
-	wire [55:0] rotated_key_6;
-	wire [55:0] rotated_key_7;
-	wire [55:0] rotated_key_8;
-	wire [55:0] rotated_key_9;
-	wire [55:0] rotated_key_10;
-	wire [55:0] rotated_key_11;
-	wire [55:0] rotated_key_12;
-	wire [55:0] rotated_key_13;
-	wire [55:0] rotated_key_14;
-	wire [55:0] rotated_key_15;
-	wire [55:0] rotated_key_16;
+	wire [0:55] permute_key;
+	wire [0:55] rotated_key_1;
+	wire [0:55] rotated_key_2;
+	wire [0:55] rotated_key_3;
+	wire [0:55] rotated_key_4;
+	wire [0:55] rotated_key_5;
+	wire [0:55] rotated_key_6;
+	wire [0:55] rotated_key_7;
+	wire [0:55] rotated_key_8;
+	wire [0:55] rotated_key_9;
+	wire [0:55] rotated_key_10;
+	wire [0:55] rotated_key_11;
+	wire [0:55] rotated_key_12;
+	wire [0:55] rotated_key_13;
+	wire [0:55] rotated_key_14;
+	wire [0:55] rotated_key_15;
+	wire [0:55] rotated_key_16;
 
 
 	assign permute_key = {user_key[56], user_key[48], user_key[40], user_key[32], user_key[24], user_key[16],
@@ -60,21 +60,21 @@ module roundkey
 						  user_key[11], user_key[3]};
 
 
-	assign rotated_key_1 = {permute_key[54:28], permute_key[55], permute_key[26:0], permute_key[27]};
-	assign rotated_key_2 = {permute_key[53:28], permute_key[55:54], permute_key[25:0], permute_key[27:26]};
-	assign rotated_key_3 = {permute_key[51:28], permute_key[55:52], permute_key[23:0], permute_key[27:24]};
-	assign rotated_key_4 = {permute_key[49:28], permute_key[55:50], permute_key[21:0], permute_key[27:22]};
-	assign rotated_key_5 = {permute_key[47:28], permute_key[55:48], permute_key[19:0], permute_key[27:20]};
-	assign rotated_key_6 = {permute_key[45:28], permute_key[55:46], permute_key[17:0], permute_key[27:18]};
-	assign rotated_key_7 = {permute_key[43:28], permute_key[55:44], permute_key[15:0], permute_key[27:16]};
-	assign rotated_key_8 = {permute_key[41:28], permute_key[55:42], permute_key[13:0], permute_key[27:14]};
-	assign rotated_key_9 = {permute_key[40:28], permute_key[55:41], permute_key[12:0], permute_key[27:13]};
-	assign rotated_key_10 = {permute_key[38:28], permute_key[55:39], permute_key[10:0], permute_key[27:11]};
-	assign rotated_key_11 = {permute_key[36:28], permute_key[55:37], permute_key[8:0], permute_key[27:9]};
-	assign rotated_key_12 = {permute_key[34:28], permute_key[55:35], permute_key[6:0], permute_key[27:7]};
-	assign rotated_key_13 = {permute_key[32:28], permute_key[55:33], permute_key[4:0], permute_key[27:5]};
-	assign rotated_key_14 = {permute_key[30:28], permute_key[55:31], permute_key[2:0], permute_key[27:3]};
-	assign rotated_key_15 = {permute_key[28], permute_key[55:29], permute_key[0], permute_key[27:1]};
+	assign rotated_key_1 = {permute_key[1:27], permute_key[0], permute_key[29:55], permute_key[28]};
+	assign rotated_key_2 = {permute_key[2:27], permute_key[0:1], permute_key[30:55], permute_key[28:29]};
+	assign rotated_key_3 = {permute_key[4:27], permute_key[0:3], permute_key[32:55], permute_key[28:31]};
+	assign rotated_key_4 = {permute_key[6:27], permute_key[0:5], permute_key[34:55], permute_key[28:33]};
+	assign rotated_key_5 = {permute_key[8:27], permute_key[0:7], permute_key[36:55], permute_key[28:35]};
+	assign rotated_key_6 = {permute_key[10:27], permute_key[0:9], permute_key[38:55], permute_key[28:37]};
+	assign rotated_key_7 = {permute_key[12:27], permute_key[0:11], permute_key[40:55], permute_key[28:39]};
+	assign rotated_key_8 = {permute_key[14:27], permute_key[0:13], permute_key[42:55], permute_key[28:41]};
+	assign rotated_key_9 = {permute_key[15:27], permute_key[0:14], permute_key[43:55], permute_key[28:42]};
+	assign rotated_key_10 = {permute_key[17:27], permute_key[0:16], permute_key[45:55], permute_key[28:44]};
+	assign rotated_key_11 = {permute_key[19:27], permute_key[0:18], permute_key[47:55], permute_key[28:46]};
+	assign rotated_key_12 = {permute_key[21:27], permute_key[0:20], permute_key[49:55], permute_key[28:48]};
+	assign rotated_key_13 = {permute_key[23:27], permute_key[0:22], permute_key[51:55], permute_key[28:50]};
+	assign rotated_key_14 = {permute_key[25:27], permute_key[0:24], permute_key[53:55], permute_key[28:52]};
+	assign rotated_key_15 = {permute_key[27], permute_key[0:26], permute_key[55], permute_key[28:54]};
 	assign rotated_key_16 = permute_key;
 
 
