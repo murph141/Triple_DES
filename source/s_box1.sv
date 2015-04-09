@@ -10,12 +10,17 @@ module s_box1 (
 	output wire [3:0] out_4bit
 );
 
-	logic [1:0]row = {in_6bit[5], in_6bit[0]};
-	logic [3:0]col = in_6bit[4:1];
+	logic [1:0]row;
+	logic [3:0]col;
+	assign col = in_6bit[4:1];
+	assign row = {in_6bit[5], in_6bit[0]};
 
 	logic [3:0]temp_out;
 
+	assign out_4bit = temp_out;
+
 	always_comb
+	begin
 		if(row == 0)
 		begin
 			case(col)
@@ -35,6 +40,8 @@ module s_box1 (
 				13: temp_out = 9;
 				14: temp_out = 0;
 				15: temp_out = 7;
+			endcase
+		end
 
 		if(row == 1)
 		begin
@@ -55,6 +62,8 @@ module s_box1 (
 				13: temp_out = 5;
 				14: temp_out = 3;
 				15: temp_out = 8;
+			endcase
+		end
 
 		if(row == 2)
 		begin
@@ -75,6 +84,8 @@ module s_box1 (
 				13: temp_out = 10;
 				14: temp_out = 5;
 				15: temp_out = 0;
+			endcase
+		end
 
 		if(row == 3)
 		begin
@@ -95,8 +106,11 @@ module s_box1 (
 				13: temp_out = 0;
 				14: temp_out = 6;
 				15: temp_out = 13;
+			endcase		
+		end
+	end 	
 
-	assign out_4bit = temp_out;
+	
 
 
 endmodule
