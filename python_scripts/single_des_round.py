@@ -1,3 +1,13 @@
+#!/usr/bin/env/python
+
+import sys
+
+from BitVector import *
+import os
+from random import randint
+
+
+
 def oneRound(LE, RE, round_key) :
 
     #set the new left equal to the old right
