@@ -12,14 +12,14 @@ module s_box_wrapper (
   
  
   
-  logic s_box1_out4bit;
-  logic s_box2_out4bit;
-  logic s_box3_out4bit;
-  logic s_box4_out4bit;
-  logic s_box5_out4bit;
-  logic s_box6_out4bit;
-  logic s_box7_out4bit;
-  logic s_box8_out4bit;
+  logic [3:0] s_box1_out4bit;
+  logic [3:0] s_box2_out4bit;
+  logic [3:0] s_box3_out4bit;
+  logic [3:0] s_box4_out4bit;
+  logic [3:0] s_box5_out4bit;
+  logic [3:0] s_box6_out4bit;
+  logic [3:0] s_box7_out4bit;
+  logic [3:0] s_box8_out4bit;
   
   s_box1 SUB1 (.in_6bit(in_48bit[47:42]), .out_4bit(s_box1_out4bit));
   s_box2 SUB2 (.in_6bit(in_48bit[41:36]), .out_4bit(s_box2_out4bit));
