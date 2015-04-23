@@ -18,24 +18,24 @@ module tb_roundkey();
 	localparam	CHECK_DELAY = 1; // Check 1ns after the rising edge to allow for propagation delay
 	
 	// Declare Design Under Test (DUT) portmap signals
-	reg [0:63] tb_user_key;
+	reg [63:0] tb_user_key;
 	reg tb_encr_decr;
-  	wire [0:47] tb_roundkey_1;
-  	wire [0:47] tb_roundkey_2;
-  	wire [0:47] tb_roundkey_3;
-  	wire [0:47] tb_roundkey_4;
-  	wire [0:47] tb_roundkey_5;
-  	wire [0:47] tb_roundkey_6;
-  	wire [0:47] tb_roundkey_7;
-  	wire [0:47] tb_roundkey_8;
-  	wire [0:47] tb_roundkey_9;
-  	wire [0:47] tb_roundkey_10;
-  	wire [0:47] tb_roundkey_11;
-  	wire [0:47] tb_roundkey_12;
-  	wire [0:47] tb_roundkey_13;
-  	wire [0:47] tb_roundkey_14;
-  	wire [0:47] tb_roundkey_15;
-  	wire [0:47] tb_roundkey_16;
+  	wire [47:0] tb_roundkey_1;
+  	wire [47:0] tb_roundkey_2;
+  	wire [47:0] tb_roundkey_3;
+  	wire [47:0] tb_roundkey_4;
+  	wire [47:0] tb_roundkey_5;
+  	wire [47:0] tb_roundkey_6;
+  	wire [47:0] tb_roundkey_7;
+  	wire [47:0] tb_roundkey_8;
+  	wire [47:0] tb_roundkey_9;
+  	wire [47:0] tb_roundkey_10;
+  	wire [47:0] tb_roundkey_11;
+  	wire [47:0] tb_roundkey_12;
+  	wire [47:0] tb_roundkey_13;
+  	wire [47:0] tb_roundkey_14;
+  	wire [47:0] tb_roundkey_15;
+  	wire [47:0] tb_roundkey_16;
   
   	// DUT port map
   	roundkey M1
