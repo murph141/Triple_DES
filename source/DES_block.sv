@@ -1,7 +1,7 @@
 // $Id: $
 // File name:   DES_block.sv
 // Created:     4/26/2015
-// Author:      Isaac Sheeley
+// Author:      Isaac Sheeley & Seth Bontrager
 // Lab Section: 4
 // Version:     1.0  Initial Design Entry
 // Description: wrapper for 1 DES Block
