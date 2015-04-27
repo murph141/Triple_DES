@@ -123,6 +123,80 @@ def s_box_substitution(word_48bit) :
 
 
 def main():
+    
+    tb_key = BitVector(bitstring="000000000000000000000000000000000000000000000000")
+    tb_left = BitVector(bitstring="00000000000000000000000000000000")
+    tb_right = BitVector(bitstring="00000000000000000000000000000000")
+
+    tb_new_left, tb_new_right = oneRound(tb_left, tb_right, tb_key)
+
+    print(tb_new_left)
+    print(tb_new_right)
+
+    print('---')
+    tb_key = BitVector(bitstring="111111111111111111111111111111111111111111111111")
+    tb_left = BitVector(bitstring="00000000000000000000000000000000")
+    tb_right = BitVector(bitstring="00000000000000000000000000000000")
+
+    tb_new_left, tb_new_right = oneRound(tb_left, tb_right, tb_key)
+
+    print(tb_new_left)
+    print(tb_new_right)
+    print('---')
+    tb_key = BitVector(bitstring="000000000000000000000000000000000000000000000000")
+    tb_left = BitVector(bitstring="11111111111111111111111111111111")
+    tb_right = BitVector(bitstring="11111111111111111111111111111111")
+
+    tb_new_left, tb_new_right = oneRound(tb_left, tb_right, tb_key)
+
+    print(tb_new_left)
+    print(tb_new_right)
+    print('---')
+    tb_key = BitVector(bitstring="111111111111111111111111111111111111111111111111")
+    tb_left = BitVector(bitstring="11111111111111111111111111111111")
+    tb_right = BitVector(bitstring="11111111111111111111111111111111")
+
+    tb_new_left, tb_new_right = oneRound(tb_left, tb_right, tb_key)
+
+    print(tb_new_left)
+    print(tb_new_right)
+    print('---')
+    tb_key = BitVector(bitstring="000000000000000000000000000000000000000000000000")
+    tb_left = BitVector(bitstring="00000000000000000000000000000000")
+    tb_right = BitVector(bitstring="11111111111111111111111111111111")
+
+    tb_new_left, tb_new_right = oneRound(tb_left, tb_right, tb_key)
+
+    print(tb_new_left)
+    print(tb_new_right)
+    print('---')
+    tb_key = BitVector(bitstring="111111111111111111111111111111111111111111111111")
+    tb_left = BitVector(bitstring="00000000000000000000000000000000")
+    tb_right = BitVector(bitstring="11111111111111111111111111111111")
+
+    tb_new_left, tb_new_right = oneRound(tb_left, tb_right, tb_key)
+
+    print(tb_new_left)
+    print(tb_new_right)
+    print('---')
+    tb_key = BitVector(bitstring="000000000000000000000000000000000000000000000000")
+    tb_left = BitVector(bitstring="11111111111111111111111111111111")
+    tb_right = BitVector(bitstring="00000000000000000000000000000000")
+
+    tb_new_left, tb_new_right = oneRound(tb_left, tb_right, tb_key)
+
+    print(tb_new_left)
+    print(tb_new_right)
+    print('---')
+    tb_key = BitVector(bitstring="111111111111111111111111111111111111111111111111")
+    tb_left = BitVector(bitstring="11111111111111111111111111111111")
+    tb_right = BitVector(bitstring="00000000000000000000000000000000")
+
+    tb_new_left, tb_new_right = oneRound(tb_left, tb_right, tb_key)
+
+    print(tb_new_left)
+    print(tb_new_right)
+    print('---')
     tb_key = BitVector(bitstring="111111111111111111111111111111111111111111111111")
     tb_left = BitVector(bitstring="11110000111100001111000011110000")
     tb_right = BitVector(bitstring="00001111000011110000111100001111")
@@ -131,7 +205,16 @@ def main():
 
     print(tb_new_left)
     print(tb_new_right)
+    print('---')
 
+    tb_key = BitVector(bitstring="111100001110000111000011100001111010010111000101")
+    tb_left = BitVector(bitstring="10100101111100001100001111100010")
+    tb_right = BitVector(bitstring="10100101111100001100001111100010")
+
+    tb_new_left, tb_new_right = oneRound(tb_left, tb_right, tb_key)
+
+    print(tb_new_left)
+    print(tb_new_right)
     
 
 
