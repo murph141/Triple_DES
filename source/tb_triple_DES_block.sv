@@ -90,9 +90,10 @@ module tb_triple_DES_block ();
         @(posedge tb_clk)
         @(posedge tb_clk)
         @(posedge tb_clk)
+        tb_enable = 0;
         @(posedge tb_clk)
 
-        tb_enable = 0;
+        
    		
         @(posedge tb_clk)
         @(posedge tb_clk)
