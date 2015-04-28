@@ -58,6 +58,57 @@ module tb_AHBLiteSlaveController();
 
   initial
   begin
+    @(posedge HCLK);
+    HRESET = 1'b0;
+
+    @(posedge HCLK);
+    HRESET = 1'b1;
+    HMASTLOCK = 1'b0;
+    HREADY = 1'b0;
+    HSEL = 1'b0;
+    HWRITE = 1'b0;
+    HTRANS = 2'b0;
+    HBURST = 3'b000;
+    HSIZE = 3'b011;
+    HPROT = 4'h3;
+    HADDR = '0;
+    HWDATA = '0;
+    outputData = '0;
+
+    @(posedge HCLK);
+    HSEL = 1'b1;
+    HREADY = 1'b1;
+    HWRITE = 1'b1;
+
+    @(posedge HCLK);
+    HADDR = 32'hAAAAAAA0;
+    HWDATA = 64'h0000000000000001;
+    
+    @(posedge HCLK);
+    HWDATA = 64'h1234567890ABCDEF;
+    HADDR = 32'hAAAAAAA1;
+
+    @(posedge HCLK);
+    HWDATA = 64'h1111111111111111;
+    HADDR = 32'HAAAAAAA2;
+
+    @(posedge HCLK);
+    HWDATA = 64'h2222222222222222;
+    HADDR = 32'HAAAAAAA3;
+
+    @(posedge HCLK);
+    HWDATA = 64'h4444444444444444;
+    HADDR = 32'HAAAAAAA4;
+
+    @(posedge HCLK);
+    HWDATA = 64'h5555555555555555;
+
+    @(posedge HCLK);
+    HSEL = 1'b0;
+
+    @(posedge HCLK);
+    @(posedge HCLK);
+    @(posedge HCLK);
   end
 
 endmodule

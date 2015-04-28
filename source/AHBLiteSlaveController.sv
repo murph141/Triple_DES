@@ -66,7 +66,7 @@ module AHBLiteSlaveController
 
       READING:
       begin
-        if(currentAddress[31:3] == {28'hAAAAAA0, 1'b0} && HSEL == 1'b1)
+        if((currentAddress[31:3] == {28'hAAAAAAA, 1'b0}) && HSEL == 1'b1)
           next_state = READ;
         else if(HSEL == 1'b0)
           next_state = ERROR;
@@ -86,7 +86,7 @@ module AHBLiteSlaveController
 
       WRITING:
       begin
-        if(currentAddress[31:3] == {28'hAAAAAA0, 1'b1} && HSEL == 1'b1)
+        if((currentAddress[31:0] == 32'hAAAAAAA8) && HSEL == 1'b1)
           next_state = WRITE;
         else if(HSEL == 1'b0)
           next_state = ERROR;
@@ -122,8 +122,8 @@ module AHBLiteSlaveController
     else
     begin
       state <= next_state;
-      currentAddress <= HADDR;
       enable <= nextEnable;
+      currentAddress <= HADDR;
     end
   end
 
