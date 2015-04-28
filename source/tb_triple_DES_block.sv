@@ -90,7 +90,6 @@ module tb_triple_DES_block ();
         @(posedge tb_clk)
         @(posedge tb_clk)
         @(posedge tb_clk)
-        tb_enable = 0;
         @(posedge tb_clk)
 
         
@@ -114,6 +113,9 @@ module tb_triple_DES_block ();
         @(posedge tb_clk)
         @(posedge tb_clk)
         @(posedge tb_clk)
+
+
+
         @(posedge tb_clk)
         @(posedge tb_clk)
         @(posedge tb_clk)
@@ -132,7 +134,9 @@ module tb_triple_DES_block ();
         @(posedge tb_clk)
         @(posedge tb_clk)
         @(posedge tb_clk)
-        @(posedge tb_clk)	
+        @(posedge tb_clk)
+
+
         @(posedge tb_clk)
         @(posedge tb_clk)
         @(posedge tb_clk)
@@ -142,7 +146,10 @@ module tb_triple_DES_block ();
         @(posedge tb_clk)
         @(posedge tb_clk)
 
+
+
         //Basically CHECK_DELAY
+        @(posedge tb_clk)
         @(posedge tb_clk)
         @(posedge tb_clk)
         @(posedge tb_clk)
@@ -152,6 +159,20 @@ module tb_triple_DES_block ();
             $info("1 PASSSED");
         else
             $error("1 BAD!");
+
+
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+
+
+
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+        
 
 
 

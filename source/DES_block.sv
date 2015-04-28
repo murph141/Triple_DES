@@ -314,9 +314,13 @@ module DES_block (
 			next_right_reg_9_16 = right_out_round_9_16;  
 		end
 	end
-	always_comb
+	always_ff @(posedge clk, negedge nrst) 
 	begin
-		if(rollover_9_16 == 1)
+		if(nrst == 0)
+		begin
+			output_data_block = 0;
+		end
+		else if(rollover_9_16 == 1)
 		begin
 			output_data_block = {right_out_round_9_16, left_out_round_9_16};
 		end
