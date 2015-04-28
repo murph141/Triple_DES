@@ -92,7 +92,7 @@ module tb_triple_DES_block ();
         @(posedge tb_clk)
         @(posedge tb_clk)
 
-        
+        tb_input_data_block = 64'h636b2c20616c736f;
    		
         @(posedge tb_clk)
         @(posedge tb_clk)
@@ -103,6 +103,7 @@ module tb_triple_DES_block ();
         @(posedge tb_clk)
         @(posedge tb_clk)
 
+        tb_input_data_block = 64'h206b6e6f776e2061;
 
         //16 rounds of processing
         @(posedge tb_clk)
@@ -174,9 +175,31 @@ module tb_triple_DES_block ();
         @(posedge tb_clk)
         
 
-
+        im_checking_now = 0;
+        if(tb_output_data_block == 64'h8fdc86ac143ae33a)
+            $info("2 PASSSED");
+        else
+            $error("2 BAD!");
 
         
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+
+
+
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+        @(posedge tb_clk)
+        
+
+        im_checking_now = 1;
+        if(tb_output_data_block == 64'h6b63b515f2929a86)
+            $info("3 PASSSED");
+        else
+            $error("3 BAD!");
 
     end
 

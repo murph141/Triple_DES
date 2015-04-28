@@ -15,13 +15,13 @@ module triple_DES_block (
 	input wire[63:0] user_key2,
 	input wire[63:0] user_key3,
 	output wire[63:0] output_data_block,
-	output wire done	
+	output reg done	
 );
 
 	
 	logic enable_DES2;
 	logic enable_DES3;
-
+	logic early_done;
 	
 
 	logic[63:0] output_data_block1;
@@ -57,12 +57,26 @@ module triple_DES_block (
 		.nrst             (nrst),
 		.enable           (enable_DES3),
 		.encr_decr        (encr_decr),
-		.enable_next_block(done),
+		.enable_next_block(early_done),
 		.user_key(user_key3),
 		.input_data_block(output_data_block2),
 		.output_data_block(output_data_block)
 
 	);
+
+
+	always_ff @(posedge clk, negedge nrst)
+	begin
+		if(nrst) 
+		begin
+			done <= 0;
+		end 
+		else 
+		begin
+			done <= early_done;
+		end
+	end
+
 
 
 endmodule
