@@ -23,6 +23,7 @@ module AHBLiteSlaveController
   input logic [31:0] HADDR,
   input logic [63:0] HWDATA,
 
+  output logic enable,
   output logic encryption_type,
   output logic [63:0] data,
   output logic [63:0] key1,
@@ -34,7 +35,9 @@ module AHBLiteSlaveController
   output logic [63:0] HRDATA
 );
 
-  typedef enum logic [4:0] {ERROR, IDLE, SELECTED, START1, START2, SETENCDEC, SETKEY1, SETKEY2, SETKEY3, SETDATA, GETDATA, SETREAD, MASTERGRAB, DUMMY1, DUMMY2, DUMMY3, DUMMY4} state_type;
+  logic [31:0] currentAddress;
+
+  typedef enum logic [2:0] {ERROR, IDLE, STARTED, READING, READ, WRITING, WRITE} state_type;
 
   state_type state, next_state;
 
@@ -42,6 +45,68 @@ module AHBLiteSlaveController
   always_comb
   begin
     next_state = state;
+
+    case(state)
+      IDLE:
+      begin
+        if(HSEL == 1'b1)
+          next_state = STARTED;
+      end
+
+      STARTED:
+      begin
+        if(HSEL == 1'b0)
+          next_state = IDLE;
+        else if(HREADY == 1'b1 && HWRITE == 1'b1)
+          next_state = READING;
+        else if(HREADY == 1'b1 && HWRITE == 1'b0)
+          next_state = WRITING;
+      end
+
+      READING:
+      begin
+        if(currentAddress[31:3] == {28'hAAAAAA0, 1'b0} && HSEL == 1'b1)
+          next_state = READ;
+        else if(HSEL == 1'b0)
+          next_state = ERROR;
+      end
+
+      READ:
+      begin
+        if(HSEL == 1'b0)
+          next_state = IDLE;
+        else if(HREADY == 1'b1 && HWRITE == 1'b0)
+          next_state = WRITING;
+        else if(HREADY == 1'b1 && HWRITE == 1'b1)
+          next_state = READING;
+        else
+          next_state = STARTED;
+      end
+
+      WRITING:
+      begin
+        if(currentAddress[31:3] == {28'hAAAAAA0, 1'b0} && HSEL == 1'b1)
+          next_state = WRITE;
+        else if(HSEL == 1'b0)
+          next_state = ERROR;
+      end
+
+      WRITE:
+      begin
+        if(HSEL == 1'b0)
+          next_state = IDLE;
+        else if(HREADY == 1'b1 && HWRITE == 1'b0)
+          next_state = WRITING;
+        else if(HREADY == 1'b1 && HWRITE == 1'b1)
+          next_state = READING;
+        else
+          next_state = STARTED;
+      end
+    endcase
+
+    //if()
+    //begin
+    //end
   end
 
   // State Register
