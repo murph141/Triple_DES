@@ -143,6 +143,8 @@ module tb_triple_DES_block ();
 
         //Basically CHECK_DELAY
         @(posedge tb_clk)
+        @(posedge tb_clk)
+        @(posedge tb_clk)
 
         im_checking_now = 1;
         if(tb_output_data_block == 64'h81C28058B7764C21)
