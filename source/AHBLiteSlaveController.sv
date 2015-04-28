@@ -38,75 +38,75 @@ module AHBLiteSlaveController
   logic [31:0] currentAddress;
   logic nextEnable;
 
-  typedef enum logic [2:0] {ERROR, IDLE, STARTED, READING, READ, WRITING, WRITE} state_type;
+  typedef enum logic [2:0] {ERROR, IDLE, STARTED, READING, READ, WRITING, WRITE} stateType;
 
-  state_type state, next_state;
+  stateType state, nextState;
 
   // Next State Logic
   always_comb
   begin
-    next_state = state;
+    nextState = state;
 
     case(state)
       IDLE:
       begin
         if(HSEL == 1'b1)
-          next_state = STARTED;
+          nextState = STARTED;
       end
 
       STARTED:
       begin
         if(HSEL == 1'b0)
-          next_state = IDLE;
+          nextState = IDLE;
         else if(HREADY == 1'b1 && HWRITE == 1'b1)
-          next_state = READING;
+          nextState = READING;
         else if(HREADY == 1'b1 && HWRITE == 1'b0)
-          next_state = WRITING;
+          nextState = WRITING;
       end
 
       READING:
       begin
         if((currentAddress[31:3] == {28'hAAAAAAA, 1'b0}) && HSEL == 1'b1)
-          next_state = READ;
+          nextState = READ;
         else if(HSEL == 1'b0)
-          next_state = ERROR;
+          nextState = ERROR;
       end
 
       READ:
       begin
         if(HSEL == 1'b0)
-          next_state = IDLE;
+          nextState = IDLE;
         else if(HREADY == 1'b1 && HWRITE == 1'b0)
-          next_state = WRITING;
+          nextState = WRITING;
         else if(HREADY == 1'b1 && HWRITE == 1'b1)
-          next_state = READING;
+          nextState = READING;
         else
-          next_state = STARTED;
+          nextState = STARTED;
       end
 
       WRITING:
       begin
         if((currentAddress[31:0] == 32'hAAAAAAA8) && HSEL == 1'b1)
-          next_state = WRITE;
+          nextState = WRITE;
         else if(HSEL == 1'b0)
-          next_state = ERROR;
+          nextState = ERROR;
       end
 
       WRITE:
       begin
         if(HSEL == 1'b0)
-          next_state = IDLE;
+          nextState = IDLE;
         else if(HREADY == 1'b1 && HWRITE == 1'b0)
-          next_state = WRITING;
+          nextState = WRITING;
         else if(HREADY == 1'b1 && HWRITE == 1'b1)
-          next_state = READING;
+          nextState = READING;
         else
-          next_state = STARTED;
+          nextState = STARTED;
       end
     endcase
 
     if(HPROT != 4'h3 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || (HTRANS != 2'b00 && HTRANS != 2'b10))
-      next_state = ERROR;
+      nextState = ERROR;
 
   end
 
@@ -121,7 +121,7 @@ module AHBLiteSlaveController
     end
     else
     begin
-      state <= next_state;
+      state <= nextState;
       enable <= nextEnable;
       currentAddress <= HADDR;
     end
