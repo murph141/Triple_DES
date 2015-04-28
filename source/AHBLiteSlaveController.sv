@@ -35,143 +35,53 @@ module AHBLiteSlaveController
   output logic [63:0] HRDATA
 );
 
-  logic [31:0] currentAddress;
-  logic nextEnable;
+  logic [31:0] pastAddress;
+  logic pastWrite;
 
-  typedef enum logic [2:0] {ERROR, IDLE, STARTED, READING, READ, WRITING, WRITE} stateType;
-
-  stateType state, nextState;
-
-  // Next State Logic
-  always_comb
-  begin
-    nextState = state;
-
-    case(state)
-      IDLE:
-      begin
-        if(HSEL == 1'b1)
-          nextState = STARTED;
-      end
-
-      STARTED:
-      begin
-        if(HSEL == 1'b0)
-          nextState = IDLE;
-        else if(HREADY == 1'b1 && HWRITE == 1'b1)
-          nextState = READING;
-        else if(HREADY == 1'b1 && HWRITE == 1'b0)
-          nextState = WRITING;
-      end
-
-      READING:
-      begin
-        if((currentAddress[31:3] == {28'hAAAAAAA, 1'b0}) && HSEL == 1'b1)
-          nextState = READ;
-        else if(HSEL == 1'b0)
-          nextState = ERROR;
-      end
-
-      READ:
-      begin
-        if(HSEL == 1'b0)
-          nextState = IDLE;
-        else if(HREADY == 1'b1 && HWRITE == 1'b0)
-          nextState = WRITING;
-        else if(HREADY == 1'b1 && HWRITE == 1'b1)
-          nextState = READING;
-        else
-          nextState = STARTED;
-      end
-
-      WRITING:
-      begin
-        if((currentAddress[31:0] == 32'hAAAAAAA8) && HSEL == 1'b1)
-          nextState = WRITE;
-        else if(HSEL == 1'b0)
-          nextState = ERROR;
-      end
-
-      WRITE:
-      begin
-        if(HSEL == 1'b0)
-          nextState = IDLE;
-        else if(HREADY == 1'b1 && HWRITE == 1'b0)
-          nextState = WRITING;
-        else if(HREADY == 1'b1 && HWRITE == 1'b1)
-          nextState = READING;
-        else
-          nextState = STARTED;
-      end
-    endcase
-
-    if(HPROT != 4'h3 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || (HTRANS != 2'b00 && HTRANS != 2'b10))
-      nextState = ERROR;
-
-  end
-
-  // State Register
   always_ff @ (posedge HCLK, negedge HRESET)
   begin
     if(HRESET == 1'b0)
     begin
-      state <= IDLE;
-      currentAddress = '0;
-      enable = 1'b0;
+      pastAddress <= '0;
+      pastWrite <= 1'b0;
+      HRESP <= 1'b0;
     end
     else
     begin
-      state <= nextState;
-      enable <= nextEnable;
-      currentAddress <= HADDR;
+      pastAddress <= HADDR;
+      pastWrite <= HWRITE;
+
+      if(HRESP == 1'b1)
+        HRESP <= 1'b1;
+      else
+        HRESP <= (HPROT != 4'h3 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || (HTRANS != 2'b00 && HTRANS != 2'b10));
     end
   end
 
-  // Output Logic
   always_comb
   begin
-    HRESP = 1'b0;
-    encryptionType = 1'b0;
-    data = '0;
-    key1 = '0;
-    key2 = '0;
-    key3 = '0;
-    HRDATA = '0;
-    nextEnable = 1'b0;
-
-    case(state)
-      READ:
-      begin
-        if(currentAddress[2] == 1'b1)
-        begin
-          data = HWDATA;
-          nextEnable = 1'b1;
-        end
-        else if(currentAddress[1:0] == 2'b00)
+    if(HREADY == 1'b1 && pastWrite == 1'b1)
+    begin
+      case(pastAddress)
+        32'hAAAAAAA0:
           encryptionType = HWDATA[0];
-        else if(currentAddress[1:0] == 2'b01)
+
+        32'hAAAAAAA1:
           key1 = HWDATA;
-        else if(currentAddress[1:0] == 2'b10)
+
+        32'hAAAAAAA2:
           key2 = HWDATA;
-        else
+
+        32'hAAAAAAA3:
           key3 = HWDATA;
-      end
 
-      WRITE:
-      begin
-        HRDATA = outputData;
-      end
-
-      ERROR:
-      begin
-        HRESP = 1'b1;
-      end
-
-    endcase
-
-    if(enable == 1'b1 && (state != IDLE) && (state != ERROR))
-      nextEnable = 1'b1;
-
+        32'hAAAAAAA4:
+          data = HWDATA;
+      endcase
+    end
+    else if(HREADY == 1'b1 && pastWrite == 1'b0)
+    begin
+      HRDATA = outputData;
+    end
   end
-
 endmodule
