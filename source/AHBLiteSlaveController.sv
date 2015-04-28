@@ -36,7 +36,10 @@ module AHBLiteSlaveController
 );
 
   logic [31:0] pastAddress;
-  logic pastWrite;
+  logic pastWrite, nextEnable;
+
+  logic [63:0] oldKey1, oldKey2, oldKey3, oldData;
+  logic oldEncryptionType;
 
   always_ff @ (posedge HCLK, negedge HRESET)
   begin
@@ -45,43 +48,89 @@ module AHBLiteSlaveController
       pastAddress <= '0;
       pastWrite <= 1'b0;
       HRESP <= 1'b0;
+      enable <= 1'b0;
     end
+
     else
     begin
       pastAddress <= HADDR;
       pastWrite <= HWRITE;
+      //enable <= ((pastAddress == 32'hAAAAAAA4) && (HRESP == 1'b0));
+      enable <= nextEnable;
 
       if(HRESP == 1'b1)
+      begin
         HRESP <= 1'b1;
+      end
       else
-        HRESP <= (HPROT != 4'h3 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || (HTRANS != 2'b00 && HTRANS != 2'b10));
+        HRESP <= (HPROT != 4'h3 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || (HTRANS != 2'b00 && HTRANS != 2'b10) || (HSEL == 1'b0 && HREADY == 1'b1));
+
     end
   end
 
-  always_comb
+  always_ff @ (posedge HCLK)
   begin
-    if(HREADY == 1'b1 && pastWrite == 1'b1)
+    if(HREADY == 1'b1 && pastWrite == 1'b1 && HSEL == 1'b1)
     begin
       case(pastAddress)
         32'hAAAAAAA0:
-          encryptionType = HWDATA[0];
+        begin
+          encryptionType <= HWDATA[0];
+          key1 <= oldKey1;
+          key2 <= oldKey2;
+          key3 <= oldKey3;
+          data <= oldData;
+        end
 
         32'hAAAAAAA1:
-          key1 = HWDATA;
+        begin
+          encryptionType <= oldEncryptionType;
+          key1 <= HWDATA;
+          key2 <= oldKey2;
+          key3 <= oldKey3;
+          data <= oldData;
+        end
 
         32'hAAAAAAA2:
-          key2 = HWDATA;
+        begin
+          encryptionType <= oldEncryptionType;
+          key1 <= oldKey1;
+          key2 <= HWDATA;
+          key3 <= oldKey3;
+          data <= oldData;
+        end
 
         32'hAAAAAAA3:
-          key3 = HWDATA;
+        begin
+          encryptionType <= oldEncryptionType;
+          key1 <= oldKey1;
+          key2 <= oldKey2;
+          key3 <= HWDATA;
+          data <= oldData;
+        end
 
         32'hAAAAAAA4:
-          data = HWDATA;
+        begin
+          encryptionType <= oldEncryptionType;
+          key1 <= oldKey1;
+          key2 <= oldKey2;
+          key3 <= oldKey3;
+          data <= HWDATA;
+        end
       endcase
     end
-    else if(HREADY == 1'b1 && pastWrite == 1'b0)
+
+    else if(HREADY == 1'b1 && pastWrite == 1'b0 && outputEnable == 1'b1 && HSEL == 1'b1)
     begin
-      HRDATA = outputData;
+      HRDATA <= outputData;
     end
   end
+
+  assign nextEnable = (pastAddress == 32'hAAAAAAA4) && (HRESP == 1'b0);
+  assign oldEncryptionType = encryptionType;
+  assign oldKey1 = key1;
+  assign oldKey2 = key2;
+  assign oldKey3 = key3;
+  assign oldData = data;
+
 endmodule

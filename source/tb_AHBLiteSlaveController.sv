@@ -11,7 +11,7 @@
 module tb_AHBLiteSlaveController();
 
   localparam CLK_PERIOD = 5; // 200 MHz clock
-  localparam CHECK_DELAY = 1;
+  localparam CHECK_DELAY = (CLK_PERIOD / 5.0);
 
   logic HCLK, HRESET, HMASTLOCK, HREADY, HRESP, HSEL, HWRITE;
   logic [1:0] HTRANS;
@@ -59,9 +59,11 @@ module tb_AHBLiteSlaveController();
   initial
   begin
     @(posedge HCLK);
+    #CHECK_DELAY;
     HRESET = 1'b0;
 
     @(posedge HCLK);
+    #CHECK_DELAY;
     HRESET = 1'b1;
     HMASTLOCK = 1'b0;
     HREADY = 1'b0;
@@ -76,39 +78,54 @@ module tb_AHBLiteSlaveController();
     outputData = '0;
 
     @(posedge HCLK);
+    #CHECK_DELAY;
     HSEL = 1'b1;
     HREADY = 1'b1;
     HWRITE = 1'b1;
 
     @(posedge HCLK);
+    #CHECK_DELAY;
     HADDR = 32'hAAAAAAA0;
-    HWDATA = 64'h0000000000000001;
     
     @(posedge HCLK);
-    HWDATA = 64'h1234567890ABCDEF;
+    #CHECK_DELAY;
+    HWDATA = 64'h0000000000000001;
     HADDR = 32'hAAAAAAA1;
 
     @(posedge HCLK);
+    #CHECK_DELAY;
     HWDATA = 64'h1111111111111111;
     HADDR = 32'HAAAAAAA2;
 
     @(posedge HCLK);
+    #CHECK_DELAY;
     HWDATA = 64'h2222222222222222;
     HADDR = 32'HAAAAAAA3;
 
     @(posedge HCLK);
+    #CHECK_DELAY;
+    HWDATA = 64'h3333333333333333;
+    HADDR = 32'hAAAAAAA4;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HADDR = '0;
     HWDATA = 64'h4444444444444444;
-    HADDR = 32'HAAAAAAA4;
 
     @(posedge HCLK);
+    #(CLK_PERIOD * 7);
+    HADDR = 32'hAAAAAAA4;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
     HWDATA = 64'h5555555555555555;
+    HADDR = '0;
 
     @(posedge HCLK);
-    HSEL = 1'b0;
+    #(CLK_PERIOD * 7);
+    HADDR = 32'hAAAAAAA4;
 
-    @(posedge HCLK);
-    @(posedge HCLK);
-    @(posedge HCLK);
+    $finish;
+
   end
-
 endmodule
