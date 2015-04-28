@@ -8,6 +8,7 @@
 
 module AHBLiteSlaveController
 (
+  input logic outputEnable,
   input logic [63:0] outputData,
 
   input logic HCLK,
@@ -35,6 +36,7 @@ module AHBLiteSlaveController
 );
 
   logic [31:0] currentAddress;
+  logic nextEnable;
 
   typedef enum logic [2:0] {ERROR, IDLE, STARTED, READING, READ, WRITING, WRITE} state_type;
 
@@ -115,18 +117,19 @@ module AHBLiteSlaveController
     begin
       state <= IDLE;
       currentAddress = '0;
+      enable = 1'b0;
     end
     else
     begin
       state <= next_state;
       currentAddress <= HADDR;
+      enable <= nextEnable;
     end
   end
 
   // Output Logic
   always_comb
   begin
-    enable = 1'b0;
     HRESP = 1'b0;
     encryptionType = 1'b0;
     data = '0;
@@ -134,12 +137,16 @@ module AHBLiteSlaveController
     key2 = '0;
     key3 = '0;
     HRDATA = '0;
+    nextEnable = 1'b0;
 
     case(state)
       READ:
       begin
         if(currentAddress[2] == 1'b1)
+        begin
           data = HWDATA;
+          nextEnable = 1'b1;
+        end
         else if(currentAddress[1:0] == 2'b00)
           encryptionType = HWDATA[0];
         else if(currentAddress[1:0] == 2'b01)
@@ -154,10 +161,17 @@ module AHBLiteSlaveController
       begin
         HRDATA = outputData;
       end
+
+      ERROR:
+      begin
+        HRESP = 1'b1;
+      end
+
     endcase
+
+    if(enable == 1'b1 && (state != IDLE) && (state != ERROR))
+      nextEnable = 1'b1;
+
   end
 
 endmodule
-//  output logic enable,
-//  output logic HRESP,
-//  output logic [63:0] HRDATA
