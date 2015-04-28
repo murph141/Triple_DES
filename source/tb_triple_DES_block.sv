@@ -30,11 +30,11 @@ module tb_triple_DES_block ();
 
 
     triple_DES_block DUT_3DES(
-    	.clk      (clk),
-    	.enable   (enable),
-    	.nrst     (nrst),
-    	.encr_decr(encr_decr),
-    	.done     (done),
+    	.clk      (tb_clk),
+    	.enable   (tb_enable),
+    	.nrst     (tb_nrst),
+    	.encr_decr(tb_encr_decr),
+    	.done     (tb_done),
     	.input_data_block(tb_input_data_block),
     	.output_data_block(tb_output_data_block),
     	.user_key1(tb_user_key1),
