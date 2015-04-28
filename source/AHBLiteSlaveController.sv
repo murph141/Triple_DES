@@ -30,7 +30,6 @@ module AHBLiteSlaveController
   output logic [63:0] key2,
   output logic [63:0] key3,
 
-  output logic HREADYOUT,
   output logic HRESP,
   output logic [63:0] HRDATA
 );
@@ -104,9 +103,9 @@ module AHBLiteSlaveController
       end
     endcase
 
-    //if()
-    //begin
-    //end
+    if(HPROT != 4'h3 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || (HTRANS != 2'b00 && HTRANS != 2'b10))
+      next_state = error;
+
   end
 
   // State Register
@@ -121,6 +120,15 @@ module AHBLiteSlaveController
   // Output Logic
   always_comb
   begin
+    enable = 1'b1;
+    HRESP = 1'b0;
+    encryption_type = 1'b0;
+    data = '0;
+    key1 = '0;
+    key2 = '0;
+    key3 = '0;
+    HRDATA = '0;
+
   end
 
 endmodule
