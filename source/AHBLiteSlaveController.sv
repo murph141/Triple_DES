@@ -8,7 +8,7 @@
 
 module AHBLiteSlaveController
 (
-  input logic [63:0] output_data,
+  input logic [63:0] outputData,
 
   input logic HCLK,
   input logic HMASTLOCK,
@@ -24,7 +24,7 @@ module AHBLiteSlaveController
   input logic [63:0] HWDATA,
 
   output logic enable,
-  output logic encryption_type,
+  output logic encryptionType,
   output logic [63:0] data,
   output logic [63:0] key1,
   output logic [63:0] key2,
@@ -84,7 +84,7 @@ module AHBLiteSlaveController
 
       WRITING:
       begin
-        if(currentAddress[31:3] == {28'hAAAAAA0, 1'b0} && HSEL == 1'b1)
+        if(currentAddress[31:3] == {28'hAAAAAA0, 1'b1} && HSEL == 1'b1)
           next_state = WRITE;
         else if(HSEL == 1'b0)
           next_state = ERROR;
@@ -112,23 +112,52 @@ module AHBLiteSlaveController
   always_ff @ (posedge HCLK, negedge HRESET)
   begin
     if(HRESET == 1'b0)
+    begin
       state <= IDLE;
+      currentAddress = '0;
+    end
     else
+    begin
       state <= next_state;
+      currentAddress <= HADDR;
+    end
   end
 
   // Output Logic
   always_comb
   begin
-    enable = 1'b1;
+    enable = 1'b0;
     HRESP = 1'b0;
-    encryption_type = 1'b0;
+    encryptionType = 1'b0;
     data = '0;
     key1 = '0;
     key2 = '0;
     key3 = '0;
     HRDATA = '0;
 
+    case(state)
+      READ:
+      begin
+        if(currentAddress[2] == 1'b1)
+          data = HWDATA;
+        else if(currentAddress[1:0] == 2'b00)
+          encryptionType = HWDATA[0];
+        else if(currentAddress[1:0] == 2'b01)
+          key1 = HWDATA;
+        else if(currentAddress[1:0] == 2'b10)
+          key2 = HWDATA;
+        else
+          key3 = HWDATA;
+      end
+
+      WRITE:
+      begin
+        HRDATA = outputData;
+      end
+    endcase
   end
 
 endmodule
+//  output logic enable,
+//  output logic HRESP,
+//  output logic [63:0] HRDATA
