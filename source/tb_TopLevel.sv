@@ -55,16 +55,14 @@ module tb_TopLevel();
     setup(1'b1, 64'h1111111111111111, 64'h2222222222222222, 64'h3333333333333333, 64'h1234567890ABCDEF);
 
     sendData(64'h4444444444444444);
-
     sendData(64'h5555555555555555);
-
     sendData(64'h6666666666666666);
 
     $finish;
-
   end
 
 
+  // Set up the test bench with the initial values
   task init();
     @(posedge HCLK);
     #CHECK_DELAY;
@@ -76,7 +74,7 @@ module tb_TopLevel();
     HREADY = 1'b0;
     HSEL = 1'b0;
     HWRITE = 1'b0;
-    HTRANS = 2'b0;
+    HTRANS = 2'b00;
     HBURST = 3'b000;
     HSIZE = 3'b011;
     HPROT = 4'h3;
@@ -91,6 +89,8 @@ module tb_TopLevel();
     #CHECK_DELAY;
   endtask
 
+  // Send the initial values (Encryption / Decryption bit, three 64-bit user
+  // keys, and a 64-bit chunk of data
   task setup(logic encDec, logic [63:0] keyOne, logic [63:0] keyTwo, logic [63:0] keyThree, logic [63:0] inData);
     @(posedge HCLK);
     #CHECK_DELAY;
@@ -131,6 +131,7 @@ module tb_TopLevel();
     #(CLK_PERIOD * 6);
   endtask
 
+  // After the initial data has been sent, send a 64-bit chunk of data
   task sendData(logic [63:0] newData);
     #CHECK_DELAY;
     HADDR = 32'hAAAAAAA4;
