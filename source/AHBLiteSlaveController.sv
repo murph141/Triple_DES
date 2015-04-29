@@ -8,12 +8,13 @@
 
 module AHBLiteSlaveController
 (
+  inout logic HREADY,
+
   input logic outputEnable,
   input logic [63:0] outputData,
 
   input logic HCLK,
   input logic HMASTLOCK,
-  input logic HREADY,
   input logic HRESET,
   input logic HSEL,
   input logic HWRITE,
@@ -55,7 +56,6 @@ module AHBLiteSlaveController
     begin
       pastAddress <= HADDR;
       pastWrite <= HWRITE;
-      //enable <= ((pastAddress == 32'hAAAAAAA4) && (HRESP == 1'b0));
       enable <= nextEnable;
 
       if(HRESP == 1'b1)
