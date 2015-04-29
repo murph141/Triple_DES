@@ -51,20 +51,20 @@ module tb_TopLevel();
   begin
     init();
 
-    setup(1'b1, 64'h1111111111111111, 64'h2222222222222222, 64'h3333333333333333, 64'hFFFFFFFFFFFFFFFF);
+    setup(1'b1, 64'h1111111111111111, 64'h2222222222222222, 64'h3333333333333333, 64'h4444444444444444);
 
-    sendData(64'h4444444444444444);
     sendData(64'h5555555555555555);
     sendData(64'h6666666666666666);
     sendData(64'h7777777777777777);
     sendData(64'h8888888888888888);
+    sendData(64'h9999999999999999);
 
-    sendReceiveData(64'h9999999999999999);
     sendReceiveData(64'hAAAAAAAAAAAAAAAA);
     sendReceiveData(64'hBBBBBBBBBBBBBBBB);
     sendReceiveData(64'hCCCCCCCCCCCCCCCC);
     sendReceiveData(64'hDDDDDDDDDDDDDDDD);
     sendReceiveData(64'hEEEEEEEEEEEEEEEE);
+    sendReceiveData(64'hFFFFFFFFFFFFFFFF);
 
     $finish;
   end
@@ -86,9 +86,9 @@ module tb_TopLevel();
     HBURST = 3'b000;
     HSIZE = 3'b011;
     HPROT = 4'h3;
-    HADDR = 'z;
-    HWDATA = 'z;
-    encryptedChunk = 'z;
+    HADDR = 'x;
+    HWDATA = 'x;
+    encryptedChunk = 'x;
 
     @(posedge HCLK);
     #CHECK_DELAY;
@@ -134,10 +134,10 @@ module tb_TopLevel();
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = inData;
-    HADDR = 'z;
+    HADDR = 'x;
 
     @(posedge HCLK);
-    HWDATA = 'z;
+    HWDATA = 'x;
     #(CLK_PERIOD * 6);
   endtask
 
@@ -149,11 +149,11 @@ module tb_TopLevel();
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = newData;
-    HADDR = 'z;
+    HADDR = 'x;
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    HWDATA = 'z;
+    HWDATA = 'x;
 
     @(posedge HCLK);
     #(CLK_PERIOD * 5);
@@ -170,11 +170,11 @@ module tb_TopLevel();
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = newData;
-    HADDR = 'z;
+    HADDR = 'x;
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    HWDATA = 'z;
+    HWDATA = 'x;
 
     @(posedge HCLK);
     #(CLK_PERIOD * 2);
@@ -184,7 +184,7 @@ module tb_TopLevel();
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    HADDR = 'z;
+    HADDR = 'x;
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
 

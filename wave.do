@@ -24,15 +24,15 @@ add wave -noupdate /tb_TopLevel/DUT/T0/early_done
 add wave -noupdate /tb_TopLevel/DUT/T0/done
 add wave -noupdate /tb_TopLevel/DUT/T0/enable_DES2
 add wave -noupdate /tb_TopLevel/DUT/T0/enable_DES3
-add wave -noupdate -radix hexadecimal /tb_TopLevel/DUT/outputData
-add wave -noupdate -radix hexadecimal /tb_TopLevel/DUT/T0/output_data_block
 add wave -noupdate -radix hexadecimal /tb_TopLevel/DUT/T0/output_data_block1
 add wave -noupdate -radix hexadecimal /tb_TopLevel/DUT/T0/output_data_block2
+add wave -noupdate -radix hexadecimal /tb_TopLevel/DUT/T0/output_data_block
+add wave -noupdate -radix hexadecimal /tb_TopLevel/DUT/outputData
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {497909 ps} 0}
+WaveRestoreCursors {{Cursor 1} {79589 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 275
-configure wave -valuecolwidth 109
+configure wave -valuecolwidth 117
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
 configure wave -snapdistance 10
