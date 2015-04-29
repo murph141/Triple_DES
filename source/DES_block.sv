@@ -1,7 +1,7 @@
 // $Id: $
 // File name:   DES_block.sv
 // Created:     4/26/2015
-// Author:      Isaac Sheeley
+// Author:      Isaac Sheeley & Seth Bontrager
 // Lab Section: 4
 // Version:     1.0  Initial Design Entry
 // Description: wrapper for 1 DES Block
@@ -314,9 +314,13 @@ module DES_block (
 			next_right_reg_9_16 = right_out_round_9_16;  
 		end
 	end
-	always_comb
+	always_ff @(posedge clk, negedge nrst) 
 	begin
-		if(rollover_9_16 == 1)
+		if(nrst == 0)
+		begin
+			output_data_block = 0;
+		end
+		else if(rollover_9_16 == 1)
 		begin
 			output_data_block = {right_out_round_9_16, left_out_round_9_16};
 		end
