@@ -11,8 +11,9 @@
 module tb_TopLevel();
 
   localparam CLK_PERIOD = 5; // 200 MHz clock
-  localparam CHECK_DELAY = (CLK_PERIOD / 5.0);
+  localparam CHECK_DELAY = (CLK_PERIOD / 5.0); // Small delay so that the source version closely mimics the mapped version
 
+  // AHB-Lite Bus Signals and the output chunk of data
   logic HCLK, HRESET, HMASTLOCK, HREADY, HRESP, HSEL, HWRITE;
   logic [1:0] HTRANS;
   logic [2:0] HBURST, HSIZE;
@@ -47,18 +48,30 @@ module tb_TopLevel();
     #(CLK_PERIOD / 2.0);
   end
 
+  // Call the pre-defined tasks with specified parameters to encrypt and
+  // decrypt values
+  //
+  // All of the tasks will end on the positive end of a clock, so tasks that
+  // follow one another can assume a starting point at a rising edge
   initial
   begin
+    // Initializes all the values on the bus
     init();
 
+    // Sets the mode of operation (Encryption or Decryption), the provided
+    // user keys (Three in total), and the first chunk of data being send
+    // (64-bits in length)
     setup(1'b1, 64'h1111111111111111, 64'h2222222222222222, 64'h3333333333333333, 64'h4444444444444444);
 
+    // Sends the initial data chunks before data has been processed
     sendData(64'h5555555555555555);
     sendData(64'h6666666666666666);
     sendData(64'h7777777777777777);
     sendData(64'h8888888888888888);
     sendData(64'h9999999999999999);
 
+    // Sends a 64-bit data chunk while also grabbing a 64-bit encrypted chunk
+    // from the bus (Provided from HRDATA)
     sendReceiveData(64'hAAAAAAAAAAAAAAAA);
     sendReceiveData(64'hBBBBBBBBBBBBBBBB);
     sendReceiveData(64'hCCCCCCCCCCCCCCCC);
@@ -71,6 +84,8 @@ module tb_TopLevel();
 
 
   // Set up the test bench with the initial values
+  // This task sets all of the default values (Note that default bus values
+  // are x, don't care)
   task init();
     @(posedge HCLK);
     #CHECK_DELAY;
@@ -95,7 +110,6 @@ module tb_TopLevel();
     HRESET = 1'b1;
 
     @(posedge HCLK);
-    #CHECK_DELAY;
   endtask
 
   // Send the initial values (Encryption / Decryption bit, three 64-bit user
@@ -137,8 +151,11 @@ module tb_TopLevel();
     HADDR = 'x;
 
     @(posedge HCLK);
+    #CHECK_DELAY;
     HWDATA = 'x;
-    #(CLK_PERIOD * 6);
+
+    @(posedge HCLK);
+    #(CLK_PERIOD * 5);
   endtask
 
   // After the initial data has been sent, send a 64-bit chunk of data
