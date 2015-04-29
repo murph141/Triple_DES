@@ -67,7 +67,7 @@ module triple_DES_block (
 
 	always_ff @(posedge clk, negedge nrst)
 	begin
-		if(nrst) 
+		if(nrst == 1'b0) 
 		begin
 			done <= 0;
 		end 

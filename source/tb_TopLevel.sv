@@ -52,53 +52,13 @@ module tb_TopLevel();
   begin
     init();
 
-    //@(posedge HCLK);
-    //#CHECK_DELAY;
-    //HSEL = 1'b1;
-    //HREADY = 1'b1;
-    //HWRITE = 1'b1;
+    setup(1'b1, 64'h1111111111111111, 64'h2222222222222222, 64'h3333333333333333, 64'h1234567890ABCDEF);
 
-    //@(posedge HCLK);
-    //#CHECK_DELAY;
-    //HADDR = 32'hAAAAAAA0;
-    //
-    //@(posedge HCLK);
-    //#CHECK_DELAY;
-    //HWDATA = 64'h0000000000000001;
-    //HADDR = 32'hAAAAAAA1;
+    sendData(64'h4444444444444444);
 
-    //@(posedge HCLK);
-    //#CHECK_DELAY;
-    //HWDATA = 64'h1111111111111111;
-    //HADDR = 32'HAAAAAAA2;
+    sendData(64'h5555555555555555);
 
-    //@(posedge HCLK);
-    //#CHECK_DELAY;
-    //HWDATA = 64'h2222222222222222;
-    //HADDR = 32'HAAAAAAA3;
-
-    //@(posedge HCLK);
-    //#CHECK_DELAY;
-    //HWDATA = 64'h3333333333333333;
-    //HADDR = 32'hAAAAAAA4;
-
-    //@(posedge HCLK);
-    //#CHECK_DELAY;
-    //HADDR = '0;
-    //HWDATA = 64'h4444444444444444;
-
-    //@(posedge HCLK);
-    //#(CLK_PERIOD * 7);
-    //HADDR = 32'hAAAAAAA4;
-
-    //@(posedge HCLK);
-    //#CHECK_DELAY;
-    //HWDATA = 64'h5555555555555555;
-    //HADDR = '0;
-
-    //@(posedge HCLK);
-    //#(CLK_PERIOD * 7);
-    //HADDR = 32'hAAAAAAA4;
+    sendData(64'h6666666666666666);
 
     $finish;
 
@@ -129,6 +89,60 @@ module tb_TopLevel();
 
     @(posedge HCLK);
     #CHECK_DELAY;
+  endtask
+
+  task setup(logic encDec, logic [63:0] keyOne, logic [63:0] keyTwo, logic [63:0] keyThree, logic [63:0] inData);
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HSEL = 1'b1;
+    HREADY = 1'b1;
+    HWRITE = 1'b1;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HADDR = 32'hAAAAAAA0;
+    
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HWDATA = encDec;
+    HADDR = 32'hAAAAAAA1;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HWDATA = keyOne;
+    HADDR = 32'hAAAAAAA2;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HWDATA = keyTwo;
+    HADDR = 32'hAAAAAAA3;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HWDATA = keyThree;
+    HADDR = 32'hAAAAAAA4;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HWDATA = inData;
+    HADDR = '0;
+
+    @(posedge HCLK);
+    #(CLK_PERIOD * 6);
+  endtask
+
+  task sendData(logic [63:0] newData);
+    #CHECK_DELAY;
+    HADDR = 32'hAAAAAAA4;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HWDATA = newData;
+    HADDR = '0;
+
+    @(posedge HCLK);
+    #(CLK_PERIOD * 6);
+    HADDR = 32'hAAAAAAA4;
   endtask
 
 endmodule
