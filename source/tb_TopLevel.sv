@@ -19,8 +19,8 @@ module tb_TopLevel();
   logic [3:0] HPROT;
   logic [31:0] HADDR;
   logic [63:0] HRDATA, HWDATA;
-  logic [63:0] data, key1, key2, key3, outputData;
-  logic enable, encryptionType;
+  //logic [63:0] data, key1, key2, key3, outputData;
+  //logic enable, encryptionType;
 
   TopLevel DUT
   (
