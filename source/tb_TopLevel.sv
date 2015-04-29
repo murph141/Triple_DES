@@ -86,8 +86,8 @@ module tb_TopLevel();
     HBURST = 3'b000;
     HSIZE = 3'b011;
     HPROT = 4'h3;
-    HADDR = '0;
-    HWDATA = '0;
+    HADDR = 'z;
+    HWDATA = 'z;
     encryptedChunk = 'z;
 
     @(posedge HCLK);
@@ -134,10 +134,10 @@ module tb_TopLevel();
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = inData;
-    HADDR = '0;
+    HADDR = 'z;
 
     @(posedge HCLK);
-    HWDATA = '0;
+    HWDATA = 'z;
     #(CLK_PERIOD * 6);
   endtask
 
@@ -149,11 +149,11 @@ module tb_TopLevel();
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = newData;
-    HADDR = '0;
+    HADDR = 'z;
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    HWDATA = '0;
+    HWDATA = 'z;
 
     @(posedge HCLK);
     #(CLK_PERIOD * 5);
@@ -161,6 +161,8 @@ module tb_TopLevel();
 
   // After the initial data has been sent, send a 64-bit chunk of data and
   // receive the 64-bit chunk of completed data
+  // Values will be send on the second cycle, and values will be grabbed on
+  // the seventh clock cycle
   task sendReceiveData(logic [63:0] newData);
     #CHECK_DELAY;
     HADDR = 32'hAAAAAAA4;
@@ -168,11 +170,11 @@ module tb_TopLevel();
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = newData;
-    HADDR = '0;
+    HADDR = 'z;
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    HWDATA = '0;
+    HWDATA = 'z;
 
     @(posedge HCLK);
     #(CLK_PERIOD * 2);
@@ -182,7 +184,7 @@ module tb_TopLevel();
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    HADDR = '0;
+    HADDR = 'z;
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
 
