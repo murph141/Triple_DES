@@ -19,6 +19,7 @@ module tb_TopLevel();
   logic [3:0] HPROT;
   logic [31:0] HADDR;
   logic [63:0] HRDATA, HWDATA;
+  logic [63:0] encryptedChunk;
 
   TopLevel DUT
   (
@@ -57,10 +58,10 @@ module tb_TopLevel();
     sendData(64'h6666666666666666);
     sendData(64'h7777777777777777);
     sendData(64'h8888888888888888);
-    sendData(64'h9999999999999999);
-    sendData(64'hAAAAAAAAAAAAAAAA);
-    sendData(64'hBBBBBBBBBBBBBBBB);
-    sendData(64'hCCCCCCCCCCCCCCCC);
+
+    sendReceiveData(64'h9999999999999999);
+    sendReceiveData(64'hAAAAAAAAAAAAAAAA);
+    sendReceiveData(64'hBBBBBBBBBBBBBBBB);
 
     $finish;
   end
@@ -84,6 +85,7 @@ module tb_TopLevel();
     HPROT = 4'h3;
     HADDR = '0;
     HWDATA = '0;
+    encryptedChunk = 'z;
 
     @(posedge HCLK);
     #CHECK_DELAY;
@@ -132,6 +134,7 @@ module tb_TopLevel();
     HADDR = '0;
 
     @(posedge HCLK);
+    HWDATA = '0;
     #(CLK_PERIOD * 6);
   endtask
 
@@ -146,7 +149,37 @@ module tb_TopLevel();
     HADDR = '0;
 
     @(posedge HCLK);
+    HWDATA = '0;
     #(CLK_PERIOD * 6);
   endtask
 
+  // After the initial data has been sent, send a 64-bit chunk of data and
+  // receive the 64-bit chunk of completed data
+  task sendReceiveData(logic [63:0] newData);
+    #CHECK_DELAY;
+    HADDR = 32'hAAAAAAA4;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HWDATA = newData;
+    HADDR = '0;
+
+    @(posedge HCLK);
+    HWDATA = '0;
+
+    #(CLK_PERIOD * 2);
+    #CHECK_DELAY;
+    HADDR = 32'hAAAAAAA8;
+
+    #(CLK_PERIOD);
+    #CHECK_DELAY;
+    HWRITE = 1'b0;
+    HADDR = '0;
+    encryptedChunk = HRDATA;
+
+    #(CLK_PERIOD);
+    #CHECK_DELAY;
+    HWRITE = 1'b1;
+    #(CLK_PERIOD * 2);
+  endtask
 endmodule
