@@ -149,8 +149,11 @@ module tb_TopLevel();
     HADDR = '0;
 
     @(posedge HCLK);
+    #CHECK_DELAY;
     HWDATA = '0;
-    #(CLK_PERIOD * 6);
+
+    @(posedge HCLK);
+    #(CLK_PERIOD * 5);
   endtask
 
   // After the initial data has been sent, send a 64-bit chunk of data and
@@ -166,20 +169,22 @@ module tb_TopLevel();
 
     @(posedge HCLK);
     HWDATA = '0;
-
-    #(CLK_PERIOD * 2);
-    #CHECK_DELAY;
     HADDR = 32'hAAAAAAA8;
 
-    #(CLK_PERIOD);
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    encryptedChunk = HRDATA;
+
+    @(posedge HCLK);
     #CHECK_DELAY;
     HWRITE = 1'b0;
     HADDR = '0;
-    encryptedChunk = HRDATA;
 
-    #(CLK_PERIOD);
+    @(posedge HCLK);
     #CHECK_DELAY;
     HWRITE = 1'b1;
-    #(CLK_PERIOD * 2);
+
+    @(posedge HCLK);
+    @(posedge HCLK);
   endtask
 endmodule
