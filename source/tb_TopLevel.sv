@@ -19,8 +19,6 @@ module tb_TopLevel();
   logic [3:0] HPROT;
   logic [31:0] HADDR;
   logic [63:0] HRDATA, HWDATA;
-  //logic [63:0] data, key1, key2, key3, outputData;
-  //logic enable, encryptionType;
 
   TopLevel DUT
   (
@@ -52,11 +50,17 @@ module tb_TopLevel();
   begin
     init();
 
-    setup(1'b1, 64'h1111111111111111, 64'h2222222222222222, 64'h3333333333333333, 64'h1234567890ABCDEF);
+    setup(1'b1, 64'h4444444444444444, 64'h4444444444444444, 64'h4444444444444444, 64'h6666666666666666);
 
     sendData(64'h4444444444444444);
     sendData(64'h5555555555555555);
     sendData(64'h6666666666666666);
+    sendData(64'h7777777777777777);
+    sendData(64'h8888888888888888);
+    sendData(64'h9999999999999999);
+    sendData(64'hAAAAAAAAAAAAAAAA);
+    sendData(64'hBBBBBBBBBBBBBBBB);
+    sendData(64'hCCCCCCCCCCCCCCCC);
 
     $finish;
   end
