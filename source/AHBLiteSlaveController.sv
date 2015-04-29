@@ -8,7 +8,7 @@
 
 module AHBLiteSlaveController
 (
-  inout logic HREADY,
+  input logic HREADY,
 
   input logic outputEnable,
   input logic [63:0] outputData,
