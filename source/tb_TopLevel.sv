@@ -142,7 +142,6 @@ module tb_TopLevel();
 
     @(posedge HCLK);
     #(CLK_PERIOD * 6);
-    HADDR = 32'hAAAAAAA4;
   endtask
 
 endmodule
