@@ -62,6 +62,9 @@ module tb_TopLevel();
     sendReceiveData(64'h9999999999999999);
     sendReceiveData(64'hAAAAAAAAAAAAAAAA);
     sendReceiveData(64'hBBBBBBBBBBBBBBBB);
+    sendReceiveData(64'hCCCCCCCCCCCCCCCC);
+    sendReceiveData(64'hDDDDDDDDDDDDDDDD);
+    sendReceiveData(64'hEEEEEEEEEEEEEEEE);
 
     $finish;
   end
@@ -168,23 +171,22 @@ module tb_TopLevel();
     HADDR = '0;
 
     @(posedge HCLK);
+    #CHECK_DELAY;
     HWDATA = '0;
+
+    @(posedge HCLK);
+    #(CLK_PERIOD * 2);
+    #CHECK_DELAY;
     HADDR = 32'hAAAAAAA8;
-
-    @(posedge HCLK);
-    #CHECK_DELAY;
-    encryptedChunk = HRDATA;
-
-    @(posedge HCLK);
-    #CHECK_DELAY;
     HWRITE = 1'b0;
-    HADDR = '0;
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    HADDR = '0;
+    encryptedChunk = HRDATA;
     HWRITE = 1'b1;
 
     @(posedge HCLK);
-    @(posedge HCLK);
+    #(CLK_PERIOD);
   endtask
 endmodule

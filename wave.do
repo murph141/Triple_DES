@@ -10,6 +10,7 @@ add wave -noupdate /tb_TopLevel/DUT/A0/pastWrite
 add wave -noupdate -radix hexadecimal /tb_TopLevel/HADDR
 add wave -noupdate -radix hexadecimal /tb_TopLevel/DUT/A0/pastAddress
 add wave -noupdate -radix hexadecimal /tb_TopLevel/HRDATA
+add wave -noupdate -radix hexadecimal /tb_TopLevel/encryptedChunk
 add wave -noupdate -radix hexadecimal /tb_TopLevel/HWDATA
 add wave -noupdate /tb_TopLevel/DUT/outputEnable
 add wave -noupdate /tb_TopLevel/DUT/A0/nextEnable
@@ -28,7 +29,7 @@ add wave -noupdate -radix hexadecimal /tb_TopLevel/DUT/T0/output_data_block
 add wave -noupdate -radix hexadecimal /tb_TopLevel/DUT/T0/output_data_block1
 add wave -noupdate -radix hexadecimal /tb_TopLevel/DUT/T0/output_data_block2
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {61648 ps} 0}
+WaveRestoreCursors {{Cursor 1} {497909 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 275
 configure wave -valuecolwidth 109
@@ -44,4 +45,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {7577 ps} {218022 ps}
+WaveRestoreZoom {0 ps} {553875 ps}
