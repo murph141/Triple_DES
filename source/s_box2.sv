@@ -43,7 +43,7 @@ module s_box2 (
 			endcase
 		end
 
-		if(row == 1)
+		else if(row == 1)
 		begin
 			case(col)
 				0 : temp_out = 3;
@@ -65,7 +65,7 @@ module s_box2 (
 			endcase
 		end
 
-		if(row == 2)
+		else if(row == 2)
 		begin
 			case(col)
 				0 : temp_out = 0;
@@ -87,7 +87,7 @@ module s_box2 (
 			endcase
 		end
 
-		if(row == 3)
+		else if(row == 3)
 		begin
 			case(col)
 				0 : temp_out = 13;
@@ -107,6 +107,11 @@ module s_box2 (
 				14: temp_out = 14;
 				15: temp_out = 9;
 			endcase
+		end
+
+		else
+		begin
+			temp_out = 0;
 		end
 	end 	
 

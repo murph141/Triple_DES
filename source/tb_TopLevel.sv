@@ -51,20 +51,33 @@ module tb_TopLevel();
   begin
     init();
 
-    setup(1'b1, 64'h736865726C6F636B, 64'h736865726C6F636B, 64'h736865726C6F636B, 64'h5368656C6C73686F);
+    /*setup(1'b1, 64'h736865726C6F636B, 64'h64736B65776A7272, 64'h6B776C6F70617772, 64'h5368656C6C73686F);
 
-    sendData(64'h5555555555555555);
-    sendData(64'h6666666666666666);
-    sendData(64'h7777777777777777);
-    sendData(64'h8888888888888888);
-    sendData(64'h9999999999999999);
+    sendData(64'h636B2C20616C736F);
+    sendData(64'h206B6E6F776E2061);
+    sendData(64'h732042617368646F);
+    sendData(64'h6F722C2069732061);
+    sendData(64'h2066616D696C7920);
 
-    sendReceiveData(64'hAAAAAAAAAAAAAAAA);
-    sendReceiveData(64'hBBBBBBBBBBBBBBBB);
-    sendReceiveData(64'hCCCCCCCCCCCCCCCC);
-    sendReceiveData(64'hDDDDDDDDDDDDDDDD);
-    sendReceiveData(64'hEEEEEEEEEEEEEEEE);
-    sendReceiveData(64'hFFFFFFFFFFFFFFFF);
+    sendReceiveData(64'h6F66207365637572);
+    sendReceiveData(64'h6974792062756773);
+    sendReceiveData(64'h20696E2074686520);
+    sendReceiveData(64'h776964656C792075);
+    */
+
+    setup(1'b0, 64'h6b776c6f70617772, 64'h64736B65776A7272, 64'h736865726c6f636b, 64'h14fead4c23fe9280);
+
+    sendData(64'h8fe0d9c6b3674857);
+    sendData(64'h0ec42b5c22a87f17);
+    sendData(64'hc3e14ed7548b68d1);
+    sendData(64'h95516e4a94baf816);
+    sendData(64'hfa6f5f3315be4600);
+
+    sendReceiveData(64'h40a1e8d9e4732dd5);
+    sendReceiveData(64'h0c77f2cbfcd6c161);
+    sendReceiveData(64'h194d293b3cd139fc);
+    sendReceiveData(64'ha53f7186869a58d9);
+
 
     $finish;
   end

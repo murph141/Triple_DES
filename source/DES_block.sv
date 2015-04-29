@@ -271,6 +271,7 @@ module DES_block (
 			6: curr_key_1_8 = roundkey_6;
 			7: curr_key_1_8 = roundkey_7;
 			8: curr_key_1_8 = roundkey_8;
+			default: curr_key_1_8 = 48'd0;
 		endcase
 	end
 	//current round key (rounds 9 through 16) logic
@@ -286,6 +287,7 @@ module DES_block (
 			6: curr_key_9_16 = roundkey_14;
 			7: curr_key_9_16 = roundkey_15;
 			8: curr_key_9_16 = roundkey_16;
+			default: curr_key_9_16 = 48'd0;
 		endcase
 	end
 
@@ -296,6 +298,8 @@ module DES_block (
 		begin
 			next_left_reg_1_8 = input_data_block[63:32];
 			next_right_reg_1_8 = input_data_block[31:0]; 
+			next_left_reg_9_16 = left_out_round_9_16;
+			next_right_reg_9_16 = right_out_round_9_16;  
 		end
 
 		else if(rollover_1_8 == 1)
