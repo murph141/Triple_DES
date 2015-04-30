@@ -40,16 +40,8 @@ module TopLevel_top
     .HPROT(HPROT),
     .HADDR(HADDR),
     .HWDATA(HWDATA),
-    .outputEnable(outputEnable),
-    .outputData(outputData),
 
     .HRESP(HRESP),
-    .HRDATA(HRDATA),
-    .enable(enable),
-    .encryptionType(encryptionType),
-    .data(data),
-    .key1(key1),
-    .key2(key2),
-    .key3(key3)
+    .HRDATA(HRDATA)
   );
 endmodule
