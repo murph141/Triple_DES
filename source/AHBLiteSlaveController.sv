@@ -124,6 +124,10 @@ module AHBLiteSlaveController
     begin
       HRDATA <= outputData;
     end
+    else if(HREADY == 1'b1 && pastWrite == 1'b0 && outputEnable == 1'b0 && HSEL == 1'b1)
+    begin
+      HRDATA <= '0;
+    end
   end
 
   assign nextEnable = (pastAddress == 32'hAAAAAAA4) && (HRESP == 1'b0);

@@ -8,7 +8,7 @@
 
 `timescale 1ns / 10ps
 
-module tb_TopLevel();
+module tb_TopLevel_top();
 
   localparam CLK_PERIOD = 5; // 200 MHz clock
   localparam CHECK_DELAY = (CLK_PERIOD / 5.0);
