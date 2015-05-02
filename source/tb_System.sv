@@ -107,7 +107,7 @@ module tb_System();
     HTRANS = 2'b00;
     HBURST = 3'b000;
     HSIZE = 3'b011;
-    HPROT = 4'h3;
+    HPROT = 4'h1;
     HADDR = '0;
     HWDATA = '0;
     encryptedChunk = '0;

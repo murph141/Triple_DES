@@ -65,7 +65,7 @@ module tb_DefaultSlave();
     HTRANS = 2'b00;
     HBURST = '0;
     HSIZE = 3'b011;
-    HPROT = 4'b0011;
+    HPROT = 4'h1;
     HADDR = '0;
     HWDATA = '0;
 

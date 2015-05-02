@@ -61,7 +61,7 @@ module AHBLiteSlaveController
       pastWrite <= HWRITE;
       enable <= nextEnable;
 
-      HRESP <= (HPROT != 4'h3 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || (HTRANS != 2'b00 && HTRANS != 2'b10));
+      HRESP <= (HPROT != 4'h1 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || (HTRANS != 2'b00 && HTRANS != 2'b10));
 
     end
   end
