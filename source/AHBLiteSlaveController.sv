@@ -8,13 +8,9 @@
 
 module AHBLiteSlaveController
 (
-  input logic HREADY,
-
-  input logic outputEnable,
-  input logic [63:0] outputData,
-
   input logic HCLK,
   input logic HMASTLOCK,
+  input logic HREADY,
   input logic HRESET,
   input logic HSEL,
   input logic HWRITE,
@@ -25,16 +21,20 @@ module AHBLiteSlaveController
   input logic [31:0] HADDR,
   input logic [63:0] HWDATA,
 
+  input logic outputEnable,
+  input logic [63:0] outputData,
+
+  output logic HREADYOUT,
+  output logic HRESP,
+  output logic [63:0] HRDATA,
+
   output logic enable,
   output logic encryptionType,
   output logic [63:0] data,
   output logic [63:0] key1,
   output logic [63:0] key2,
-  output logic [63:0] key3,
+  output logic [63:0] key3
 
-  output logic HRESP,
-  output logic [63:0] HRDATA,
-  output logic HREADYOUT
 );
 
   logic [31:0] pastAddress;
@@ -111,6 +111,8 @@ module AHBLiteSlaveController
           data <= oldData;
         end
 
+      // Default case since HSEL won't point here unless the address is in the
+      // correct range
       else
         begin
           encryptionType <= oldEncryptionType;

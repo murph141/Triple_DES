@@ -30,6 +30,9 @@ module DefaultSlave
 
   assign HREADYOUT = 1'b1;
 
+  // TODO
+  assign HRDATA = '0;
+
   always_ff @ (posedge HCLK, negedge HRESET)
   begin
     if(HRESET == 1'b0)
@@ -45,9 +48,10 @@ module DefaultSlave
     end
   end
 
+  /* TODO
   always_ff @ (posedge HCLK)
   begin
   end
-
+  */
 
 endmodule

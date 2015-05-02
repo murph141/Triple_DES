@@ -11,7 +11,6 @@ module TopLevel
   input logic HCLK,
   input logic HMASTLOCK,
   input logic HRESET,
-  input logic HSEL,
   input logic HWRITE,
   input logic [1:0] HTRANS,
   input logic [2:0] HBURST,
@@ -44,18 +43,20 @@ module TopLevel
     .HPROT(HPROT),
     .HADDR(HADDR),
     .HWDATA(HWDATA),
+
     .outputEnable(outputEnable),
     .outputData(outputData),
 
+    .HREADYOUT(HREADYOUT_1),
     .HRESP(HRESP_1),
     .HRDATA(HRDATA_1),
+
     .enable(enable),
     .encryptionType(encryptionType),
     .data(data),
     .key1(key1),
     .key2(key2),
-    .key3(key3),
-    .HREADYOUT(HREADYOUT_1)
+    .key3(key3)
   );
 
   DefaultSlave D0

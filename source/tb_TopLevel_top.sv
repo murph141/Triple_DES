@@ -13,7 +13,7 @@ module tb_TopLevel_top();
   localparam CLK_PERIOD = 5; // 200 MHz clock
   localparam CHECK_DELAY = (CLK_PERIOD / 5.0);
 
-  logic HCLK, HRESET, HMASTLOCK, HREADY, HRESP, HSEL, HWRITE;
+  logic HCLK, HRESET, HMASTLOCK, HREADY, HRESP, HWRITE;
   logic [1:0] HTRANS;
   logic [2:0] HBURST, HSIZE;
   logic [3:0] HPROT;
@@ -27,7 +27,6 @@ module tb_TopLevel_top();
     .HMASTLOCK(HMASTLOCK),
     .HREADY(HREADY),
     .HRESET(HRESET),
-    .HSEL(HSEL),
     .HWRITE(HWRITE),
     .HTRANS(HTRANS),
     .HBURST(HBURST),
@@ -105,7 +104,6 @@ module tb_TopLevel_top();
     #CHECK_DELAY;
     HMASTLOCK = 1'b0;
     //HREADY = 1'b0;
-    HSEL = 1'b0;
     HWRITE = 1'b0;
     HTRANS = 2'b00;
     HBURST = 3'b000;
@@ -128,33 +126,32 @@ module tb_TopLevel_top();
   task setup(logic encDec, logic [63:0] keyOne, logic [63:0] keyTwo, logic [63:0] keyThree, logic [63:0] inData);
     @(posedge HCLK);
     #CHECK_DELAY;
-    HSEL = 1'b1;
     //HREADY = 1'b1;
     HWRITE = 1'b1;
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    HADDR = 32'hAAAAAAA0;
+    HADDR = 32'h00000000;
     
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = encDec;
-    HADDR = 32'hAAAAAAA1;
+    HADDR = 32'h00000400;
 
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = keyOne;
-    HADDR = 32'hAAAAAAA2;
+    HADDR = 32'h00000800;
 
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = keyTwo;
-    HADDR = 32'hAAAAAAA3;
+    HADDR = 32'h00000C00;
 
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = keyThree;
-    HADDR = 32'hAAAAAAA4;
+    HADDR = 32'h00001000;
 
     @(posedge HCLK);
     #CHECK_DELAY;

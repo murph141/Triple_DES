@@ -8,12 +8,9 @@
 
 module TopLevel_top
 (
-  output logic HREADY,
-
   input logic HCLK,
   input logic HMASTLOCK,
   input logic HRESET,
-  input logic HSEL,
   input logic HWRITE,
   input logic [1:0] HTRANS,
   input logic [2:0] HBURST,
@@ -22,6 +19,7 @@ module TopLevel_top
   input logic [31:0] HADDR,
   input logic [63:0] HWDATA,
 
+  output logic HREADY,
   output logic HRESP,
   output logic [63:0] HRDATA
 );
@@ -32,7 +30,6 @@ module TopLevel_top
     .HMASTLOCK(HMASTLOCK),
     .HREADY(HREADY),
     .HRESET(HRESET),
-    .HSEL(HSEL),
     .HWRITE(HWRITE),
     .HTRANS(HTRANS),
     .HBURST(HBURST),
