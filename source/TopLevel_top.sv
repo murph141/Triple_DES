@@ -8,7 +8,7 @@
 
 module TopLevel_top
 (
-  input logic HREADY,
+  output logic HREADY,
 
   input logic HCLK,
   input logic HMASTLOCK,

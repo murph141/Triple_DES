@@ -26,7 +26,8 @@ module TopLevel
 );
 
   logic outputEnable, enable, encryptionType, muxSelect;
-  logic HREADYOUT_1, HREADYOUT_2, HRDATA_1, HRDATA_2, HRESP_1, HRESP_2;
+  logic HREADYOUT_1, HREADYOUT_2, HRESP_1, HRESP_2;
+  logic [63:0] HRDATA_1, HRDATA_2;
   logic [63:0] outputData, data, key1, key2, key3;
 
   AHBLiteSlaveController A0

@@ -104,7 +104,7 @@ module tb_TopLevel_top();
     @(posedge HCLK);
     #CHECK_DELAY;
     HMASTLOCK = 1'b0;
-    HREADY = 1'b0;
+    //HREADY = 1'b0;
     HSEL = 1'b0;
     HWRITE = 1'b0;
     HTRANS = 2'b00;
@@ -129,7 +129,7 @@ module tb_TopLevel_top();
     @(posedge HCLK);
     #CHECK_DELAY;
     HSEL = 1'b1;
-    HREADY = 1'b1;
+    //HREADY = 1'b1;
     HWRITE = 1'b1;
 
     @(posedge HCLK);
