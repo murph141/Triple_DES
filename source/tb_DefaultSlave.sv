@@ -15,7 +15,7 @@ module tb_DefaultSlave();
   logic [1:0] HTRANS;
   logic [2:0] HBURST, HSIZE;
   logic [3:0] HPROT;
-  logic [31:0] ADDR;
+  logic [31:0] HADDR;
   logic [63:0] HRDATA, HWDATA;
 
   DefaultSlave DUT
@@ -44,5 +44,32 @@ module tb_DefaultSlave();
     HCLK = 1'b1;
     #(CLK_PERIOD / 2.0);
   end
+
+  initial
+  begin
+    init();
+    $finish;
+  end
+
+  task init();
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HRESET = 1'b0;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HRESET = 1'b1;
+    HMASTLOCK = 1'b0;
+    HSEL = 1'b1;
+    HWRITE = 1'b1;
+    HTRANS = 2'b00;
+    HBURST = '0;
+    HSIZE = 3'b011;
+    HPROT = 4'b0011;
+    HADDR = '0;
+    HWDATA = '0;
+
+    @(posedge HCLK);
+  endtask
 
 endmodule
