@@ -86,7 +86,7 @@ module TopLevel
 
   Multiplexer M0
   (
-    .muxSelect(muxSelect_ff),
+    .muxSelect(muxSelect), // TODO
     .HREADYOUT_1(HREADYOUT_1),
     .HREADYOUT_2(HREADYOUT_2),
     .HRESP_1(HRESP_1),
@@ -112,12 +112,12 @@ module TopLevel
     .done(outputEnable)
   );
 
-  always_ff @ (posedge HREADY, negedge HRESET)
-  begin
-    if(HRESET == 1'b0)
-      muxSelect_ff <= 1'b0;
-    else
-      muxSelect_ff <= muxSelect;
-  end
+  //always_ff @ (posedge HREADY, negedge HRESET)
+  //begin
+  //  if(HRESET == 1'b0)
+  //    muxSelect_ff <= 1'b0;
+  //  else
+  //    muxSelect_ff <= muxSelect;
+  //end
 
 endmodule

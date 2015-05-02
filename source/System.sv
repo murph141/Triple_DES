@@ -1,12 +1,12 @@
 // $Id: $
-// File name:   3DES.sv
+// File name:   System.sv
 // Created:     4/28/2015
 // Author:      Eric Murphy
 // Lab Section: 337-04
 // Version:     1.0  Initial Design Entry
 // Description: Overall block of our Triple DES implementation.
 
-module TopLevel_top
+module System
 (
   input logic HCLK,
   input logic HMASTLOCK,
@@ -41,4 +41,5 @@ module TopLevel_top
     .HRESP(HRESP),
     .HRDATA(HRDATA)
   );
+
 endmodule

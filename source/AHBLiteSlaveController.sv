@@ -61,12 +61,7 @@ module AHBLiteSlaveController
       pastWrite <= HWRITE;
       enable <= nextEnable;
 
-      if(HRESP == 1'b1)
-      begin
-        HRESP <= 1'b1;
-      end
-      else
-        HRESP <= (HPROT != 4'h3 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || (HTRANS != 2'b00 && HTRANS != 2'b10) || (HSEL == 1'b0 && HREADY == 1'b1));
+      HRESP <= (HPROT != 4'h3 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || (HTRANS != 2'b00 && HTRANS != 2'b10));
 
     end
   end
@@ -133,7 +128,7 @@ module AHBLiteSlaveController
     end
   end
 
-  assign nextEnable = (pastAddress >= 32'h00001000 && pastAddress < 00001400) && (HRESP == 1'b0);
+  assign nextEnable = (pastAddress >= 32'h00001000 && pastAddress < 32'h00001400) && (HRESP == 1'b0);
   assign oldEncryptionType = encryptionType;
   assign oldKey1 = key1;
   assign oldKey2 = key2;
