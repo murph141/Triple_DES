@@ -50,20 +50,6 @@ module tb_System();
   begin
     init();
 
-    /*setup(1'b1, 64'h736865726C6F636B, 64'h64736B65776A7272, 64'h6B776C6F70617772, 64'h5368656C6C73686F);
-
-    sendData(64'h636B2C20616C736F);
-    sendData(64'h206B6E6F776E2061);
-    sendData(64'h732042617368646F);
-    sendData(64'h6F722C2069732061);
-    sendData(64'h2066616D696C7920);
-
-    sendReceiveData(64'h6F66207365637572);
-    sendReceiveData(64'h6974792062756773);
-    sendReceiveData(64'h20696E2074686520);
-    sendReceiveData(64'h776964656C792075);
-    */
-
     setup(1'b0, 64'h6b776c6f70617772, 64'h64736B65776A7272, 64'h736865726c6f636b, 64'h14fead4c23fe9280);
 
     sendData(64'h8fe0d9c6b3674857);
@@ -117,7 +103,6 @@ module tb_System();
     HRESET = 1'b1;
 
     @(posedge HCLK);
-    #CHECK_DELAY;
   endtask
 
   // Send the initial values (Encryption / Decryption bit, three 64-bit user
