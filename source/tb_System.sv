@@ -1,5 +1,5 @@
 // $Id: $
-// File name:   tb_AHBLiteSlaveController.sv
+// File name:   tb_System.sv
 // Created:     4/27/2015
 // Author:      Eric Murphy
 // Lab Section: 337-04
@@ -8,7 +8,7 @@
 
 `timescale 1ns / 10ps
 
-module tb_TopLevel();
+module tb_System();
 
   localparam CLK_PERIOD = 5; // 200 MHz clock
   localparam CHECK_DELAY = (CLK_PERIOD / 5.0);
@@ -21,7 +21,7 @@ module tb_TopLevel();
   logic [63:0] HRDATA, HWDATA;
   logic [63:0] encryptedChunk;
 
-  TopLevel DUT
+  System DUT
   (
     .HCLK(HCLK),
     .HMASTLOCK(HMASTLOCK),
@@ -49,20 +49,6 @@ module tb_TopLevel();
   initial
   begin
     init();
-
-    /*setup(1'b1, 64'h736865726C6F636B, 64'h64736B65776A7272, 64'h6B776C6F70617772, 64'h5368656C6C73686F);
-
-    sendData(64'h636B2C20616C736F);
-    sendData(64'h206B6E6F776E2061);
-    sendData(64'h732042617368646F);
-    sendData(64'h6F722C2069732061);
-    sendData(64'h2066616D696C7920);
-
-    sendReceiveData(64'h6F66207365637572);
-    sendReceiveData(64'h6974792062756773);
-    sendReceiveData(64'h20696E2074686520);
-    sendReceiveData(64'h776964656C792075);
-    */
 
     setup(1'b0, 64'h6b776c6f70617772, 64'h64736B65776A7272, 64'h736865726c6f636b, 64'h14fead4c23fe9280);
 
@@ -117,7 +103,6 @@ module tb_TopLevel();
     HRESET = 1'b1;
 
     @(posedge HCLK);
-    #CHECK_DELAY;
   endtask
 
   // Send the initial values (Encryption / Decryption bit, three 64-bit user
@@ -125,10 +110,11 @@ module tb_TopLevel();
   task setup(logic encDec, logic [63:0] keyOne, logic [63:0] keyTwo, logic [63:0] keyThree, logic [63:0] inData);
     @(posedge HCLK);
     #CHECK_DELAY;
-    HWRITE = 1'b1;
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    HTRANS = 2'b10;
+    HWRITE = 1'b1;
     HADDR = 32'h00000000;
     
     @(posedge HCLK);
@@ -155,6 +141,7 @@ module tb_TopLevel();
     #CHECK_DELAY;
     HWDATA = inData;
     HADDR = '0;
+    HTRANS = 2'b00;
 
     @(posedge HCLK);
     HWDATA = '0;
@@ -164,12 +151,14 @@ module tb_TopLevel();
   // After the initial data has been sent, send a 64-bit chunk of data
   task sendData(logic [63:0] newData);
     #CHECK_DELAY;
+    HTRANS = 2'b10;
     HADDR = 32'h00001000;
 
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = newData;
     HADDR = '0;
+    HTRANS = 2'b00;
 
     @(posedge HCLK);
     #CHECK_DELAY;
@@ -185,12 +174,14 @@ module tb_TopLevel();
   // the seventh clock cycle
   task sendReceiveData(logic [63:0] newData);
     #CHECK_DELAY;
+    HTRANS = 2'b10;
     HADDR = 32'h00001000;
 
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = newData;
     HADDR = '0;
+    HTRANS = 2'b00;
 
     @(posedge HCLK);
     #CHECK_DELAY;
@@ -201,12 +192,14 @@ module tb_TopLevel();
     #CHECK_DELAY;
     HADDR = 32'h00000000;
     HWRITE = 1'b0;
+    HTRANS = 2'b10;
 
     @(posedge HCLK);
     #CHECK_DELAY;
     HADDR = '0;
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
+    HTRANS = 2'b00;
 
     @(posedge HCLK);
     #CLK_PERIOD;
@@ -222,11 +215,13 @@ module tb_TopLevel();
     #CHECK_DELAY;
     HADDR = 32'h00000111;
     HWRITE = 1'b0;
+    HTRANS = 2'b10;
 
     @(posedge HCLK);
     #CHECK_DELAY;
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
+    HTRANS = 2'b00;
 
     @(posedge HCLK);
     #CLK_PERIOD;

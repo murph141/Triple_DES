@@ -72,7 +72,7 @@ module tb_AHBLiteSlaveController();
     HTRANS = 2'b0;
     HBURST = 3'b000;
     HSIZE = 3'b011;
-    HPROT = 4'h3;
+    HPROT = 4'h1;
     HADDR = '0;
     HWDATA = '0;
     outputData = '0;
