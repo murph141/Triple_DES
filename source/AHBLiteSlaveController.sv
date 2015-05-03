@@ -49,10 +49,14 @@ module AHBLiteSlaveController
   begin
     if(HRESET == 1'b0)
     begin
+      // HTRANS, HSEL, HADDR, HWRITE
       pastAddress <= '0;
       pastWrite <= 1'b0;
       HRESP <= 1'b0;
       enable <= 1'b0;
+
+      // Slaves must assert HREADYOUT during reset as per specification
+      // HREADYOUT <= 1'b1;
     end
 
     else

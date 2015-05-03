@@ -28,23 +28,55 @@ module DefaultSlave
   output logic [63:0] HRDATA
 );
 
-  assign HREADYOUT = 1'b1;
-
-  // TODO
-  assign HRDATA = '0;
+  logic pastTrans, pastSel, pastWrite;
+  logic [31:0] pastAddress;
+  logic [63:0] tempData;
 
   always_ff @ (posedge HCLK, negedge HRESET)
   begin
     if(HRESET == 1'b0)
     begin
-      HRESP <= 1'b0;
+      pastTrans <= 2'b00;
+      pastSel <= 1'b0;
+      pastAddress <= '0;
+      pastWrite <= 1'b1;
+
+      // Slaves must assert HREADYOUT during reset as per specification
+      HREADYOUT <= 1'b1;
     end
     else
     begin
-      if(HRESP == 1'b1)
+      pastTrans <= HTRANS;
+      pastSel <= HSEL;
+      pastAddress <= HADDR;
+      pastWrite <= HWRITE;
+
+      if(HRESP == 1'b1 && HREADY == 1'b0)
+      begin
         HRESP <= 1'b1;
-      else
-        HRESP <= (HTRANS == 2'b10 || HTRANS == 2'b11);
+        HREADYOUT <= 1'b1;
+      end
+      else if(pastTrans == 2'b00)
+      begin
+        HRESP <= 1'b0;
+        HREADYOUT <= 1'b1;
+      end
+      else if(HPROT != 4'h1 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || pastTrans != 2'b01)
+      begin
+        HRESP <= 1'b1;
+        HREADYOUT <= 1'b0;
+      end
+      else if(pastSel == 1'b1)
+      begin
+        if(pastWrite == 1'b1)
+        begin
+          tempData <= HWDATA;
+        end
+        else
+        begin
+          HRDATA <= 64'hABCDEF1234567890;
+        end
+      end
     end
   end
 

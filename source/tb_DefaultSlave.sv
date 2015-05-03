@@ -11,12 +11,14 @@ module tb_DefaultSlave();
   localparam CLK_PERIOD = 5;
   localparam CHECK_DELAY = (CLK_PERIOD / 5.0);
 
-  logic HCLK, HRESET, HMASTLOCK, HREADY, HSEL, HWRITE;
+  logic HCLK, HRESET, HMASTLOCK, HREADY, HSEL, HWRITE, HREADYOUT;
   logic [1:0] HTRANS;
   logic [2:0] HBURST, HSIZE;
   logic [3:0] HPROT;
   logic [31:0] HADDR;
   logic [63:0] HRDATA, HWDATA;
+
+  assign HREADY = HREADYOUT;
 
   DefaultSlave DUT
   (
@@ -48,6 +50,8 @@ module tb_DefaultSlave();
   initial
   begin
     init();
+
+    #(CLK_PERIOD * 8.0);
     $finish;
   end
 
@@ -62,10 +66,10 @@ module tb_DefaultSlave();
     HMASTLOCK = 1'b0;
     HSEL = 1'b1;
     HWRITE = 1'b1;
-    HTRANS = 2'b00;
+    HTRANS = 2'b01;
     HBURST = '0;
     HSIZE = 3'b011;
-    HPROT = 4'h1;
+    HPROT = 4'h0;
     HADDR = '0;
     HWDATA = '0;
 
