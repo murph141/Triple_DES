@@ -8,9 +8,6 @@
 
 module AHBLiteSlaveController
 (
-  input logic outputEnable,
-  input logic [63:0] outputData,
-
   input logic HCLK,
   input logic HMASTLOCK,
   input logic HREADY,
@@ -24,56 +21,78 @@ module AHBLiteSlaveController
   input logic [31:0] HADDR,
   input logic [63:0] HWDATA,
 
+  input logic outputEnable,
+  input logic [63:0] outputData,
+
+  output logic HREADYOUT,
+  output logic HRESP,
+  output logic [63:0] HRDATA,
+
   output logic enable,
   output logic encryptionType,
   output logic [63:0] data,
   output logic [63:0] key1,
   output logic [63:0] key2,
-  output logic [63:0] key3,
+  output logic [63:0] key3
 
-  output logic HRESP,
-  output logic [63:0] HRDATA
 );
 
   logic [31:0] pastAddress;
-  logic pastWrite, nextEnable;
+  logic pastWrite, nextEnable, pastSelect;
+  logic [1:0] pastTrans;
 
   logic [63:0] oldKey1, oldKey2, oldKey3, oldData;
   logic oldEncryptionType;
+
+  //assign HREADYOUT = 1'b1;
 
   always_ff @ (posedge HCLK, negedge HRESET)
   begin
     if(HRESET == 1'b0)
     begin
+      // HTRANS, HSEL
       pastAddress <= '0;
       pastWrite <= 1'b0;
+      pastSelect <= 1'b0;
+      pastTrans <= 2'b00;
       HRESP <= 1'b0;
       enable <= 1'b0;
+
+      // Slaves must assert HREADYOUT during reset as per specification
+      HREADYOUT <= 1'b1;
     end
 
     else
     begin
       pastAddress <= HADDR;
       pastWrite <= HWRITE;
-      //enable <= ((pastAddress == 32'hAAAAAAA4) && (HRESP == 1'b0));
+      pastSelect <= HSEL;
+      pastTrans <= HTRANS;
       enable <= nextEnable;
 
-      if(HRESP == 1'b1)
+      if(HRESP == 1'b1 && HREADY == 1'b0)
       begin
         HRESP <= 1'b1;
+        HREADYOUT <= 1'b1;
       end
-      else
-        HRESP <= (HPROT != 4'h3 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || (HTRANS != 2'b00 && HTRANS != 2'b10) || (HSEL == 1'b0 && HREADY == 1'b1));
-
+      else if(pastTrans == 2'b00)
+      begin
+        HRESP <= 1'b0;
+        HREADYOUT <= 1'b1;
+      end
+      else if(HPROT != 4'h1 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || pastTrans != 2'b10)
+      begin
+        HRESP <= 1'b1;
+        HREADYOUT <= 1'b0;
+      end
     end
   end
 
   always_ff @ (posedge HCLK)
   begin
-    if(HREADY == 1'b1 && pastWrite == 1'b1 && HSEL == 1'b1)
+    if(HREADY == 1'b1 && pastWrite == 1'b1 && pastSelect == 1'b1 && pastTrans != 2'b00)
     begin
-      case(pastAddress)
-        32'hAAAAAAA0:
+      if(pastAddress < 32'h00000400)
         begin
           encryptionType <= HWDATA[0];
           key1 <= oldKey1;
@@ -82,7 +101,7 @@ module AHBLiteSlaveController
           data <= oldData;
         end
 
-        32'hAAAAAAA1:
+      else if(pastAddress < 32'h00000800)
         begin
           encryptionType <= oldEncryptionType;
           key1 <= HWDATA;
@@ -91,7 +110,7 @@ module AHBLiteSlaveController
           data <= oldData;
         end
 
-        32'hAAAAAAA2:
+      else if(pastAddress < 32'h00000C00)
         begin
           encryptionType <= oldEncryptionType;
           key1 <= oldKey1;
@@ -100,7 +119,7 @@ module AHBLiteSlaveController
           data <= oldData;
         end
 
-        32'hAAAAAAA3:
+      else if(pastAddress < 32'h00001000)
         begin
           encryptionType <= oldEncryptionType;
           key1 <= oldKey1;
@@ -109,7 +128,9 @@ module AHBLiteSlaveController
           data <= oldData;
         end
 
-        32'hAAAAAAA4:
+      // Default case since HSEL won't point here unless the address is in the
+      // correct range
+      else
         begin
           encryptionType <= oldEncryptionType;
           key1 <= oldKey1;
@@ -117,16 +138,19 @@ module AHBLiteSlaveController
           key3 <= oldKey3;
           data <= HWDATA;
         end
-      endcase
-    end
+      end
 
-    else if(HREADY == 1'b1 && pastWrite == 1'b0 && outputEnable == 1'b1 && HSEL == 1'b1)
+    else if(HREADY == 1'b1 && pastWrite == 1'b0 && outputEnable == 1'b1 && pastSelect == 1'b1 && pastTrans != 2'b00)
     begin
       HRDATA <= outputData;
     end
+    else if(HREADY == 1'b1 && pastWrite == 1'b0 && outputEnable == 1'b0 && pastSelect == 1'b1 && pastTrans != 2'b00)
+    begin
+      HRDATA <= '0;
+    end
   end
 
-  assign nextEnable = (pastAddress == 32'hAAAAAAA4) && (HRESP == 1'b0);
+  assign nextEnable = (pastAddress >= 32'h00001000 && pastAddress < 32'h00001400) && (HRESP == 1'b0);
   assign oldEncryptionType = encryptionType;
   assign oldKey1 = key1;
   assign oldKey2 = key2;
