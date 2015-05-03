@@ -28,7 +28,7 @@ module DefaultSlave
   output logic [63:0] HRDATA
 );
 
-  logic pastTrans, pastSel, pastWrite;
+  logic pastTrans, pastSelect, pastWrite;
   logic [31:0] pastAddress;
   logic [63:0] tempData;
 
@@ -37,7 +37,7 @@ module DefaultSlave
     if(HRESET == 1'b0)
     begin
       pastTrans <= 2'b00;
-      pastSel <= 1'b0;
+      pastSelect <= 1'b0;
       pastAddress <= '0;
       pastWrite <= 1'b1;
 
@@ -47,7 +47,7 @@ module DefaultSlave
     else
     begin
       pastTrans <= HTRANS;
-      pastSel <= HSEL;
+      pastSelect <= HSEL;
       pastAddress <= HADDR;
       pastWrite <= HWRITE;
 
@@ -66,7 +66,7 @@ module DefaultSlave
         HRESP <= 1'b1;
         HREADYOUT <= 1'b0;
       end
-      else if(pastSel == 1'b1)
+      else if(pastSelect == 1'b1)
       begin
         if(pastWrite == 1'b1)
         begin

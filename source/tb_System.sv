@@ -110,10 +110,11 @@ module tb_System();
   task setup(logic encDec, logic [63:0] keyOne, logic [63:0] keyTwo, logic [63:0] keyThree, logic [63:0] inData);
     @(posedge HCLK);
     #CHECK_DELAY;
-    HWRITE = 1'b1;
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    HTRANS = 2'b10;
+    HWRITE = 1'b1;
     HADDR = 32'h00000000;
     
     @(posedge HCLK);
@@ -140,6 +141,7 @@ module tb_System();
     #CHECK_DELAY;
     HWDATA = inData;
     HADDR = '0;
+    HTRANS = 2'b00;
 
     @(posedge HCLK);
     HWDATA = '0;
@@ -149,12 +151,14 @@ module tb_System();
   // After the initial data has been sent, send a 64-bit chunk of data
   task sendData(logic [63:0] newData);
     #CHECK_DELAY;
+    HTRANS = 2'b10;
     HADDR = 32'h00001000;
 
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = newData;
     HADDR = '0;
+    HTRANS = 2'b00;
 
     @(posedge HCLK);
     #CHECK_DELAY;
@@ -170,12 +174,14 @@ module tb_System();
   // the seventh clock cycle
   task sendReceiveData(logic [63:0] newData);
     #CHECK_DELAY;
+    HTRANS = 2'b10;
     HADDR = 32'h00001000;
 
     @(posedge HCLK);
     #CHECK_DELAY;
     HWDATA = newData;
     HADDR = '0;
+    HTRANS = 2'b00;
 
     @(posedge HCLK);
     #CHECK_DELAY;
@@ -186,12 +192,14 @@ module tb_System();
     #CHECK_DELAY;
     HADDR = 32'h00000000;
     HWRITE = 1'b0;
+    HTRANS = 2'b10;
 
     @(posedge HCLK);
     #CHECK_DELAY;
     HADDR = '0;
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
+    HTRANS = 2'b00;
 
     @(posedge HCLK);
     #CLK_PERIOD;
@@ -207,11 +215,13 @@ module tb_System();
     #CHECK_DELAY;
     HADDR = 32'h00000111;
     HWRITE = 1'b0;
+    HTRANS = 2'b10;
 
     @(posedge HCLK);
     #CHECK_DELAY;
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
+    HTRANS = 2'b00;
 
     @(posedge HCLK);
     #CLK_PERIOD;

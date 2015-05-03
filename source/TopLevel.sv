@@ -86,7 +86,7 @@ module TopLevel
 
   Multiplexer M0
   (
-    .muxSelect(muxSelect), // TODO
+    .muxSelect(muxSelect),
     .HREADYOUT_1(HREADYOUT_1),
     .HREADYOUT_2(HREADYOUT_2),
     .HRESP_1(HRESP_1),
