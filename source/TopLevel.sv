@@ -112,12 +112,4 @@ module TopLevel
     .done(outputEnable)
   );
 
-  //always_ff @ (posedge HREADY, negedge HRESET)
-  //begin
-  //  if(HRESET == 1'b0)
-  //    muxSelect_ff <= 1'b0;
-  //  else
-  //    muxSelect_ff <= muxSelect;
-  //end
-
 endmodule
