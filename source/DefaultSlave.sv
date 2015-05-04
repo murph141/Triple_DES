@@ -61,6 +61,11 @@ module DefaultSlave
         HRESP <= 1'b0;
         HREADYOUT <= 1'b1;
       end
+      else if(pastTrans == 2'b10 && pastSelect == 1'b0)
+      begin
+        HRESP <= 1'b1;
+        HREADYOUT <= 1'b0;
+      end
       else if(HPROT != 4'h1 || HMASTLOCK != 1'b0 || HBURST != 3'b000 || HSIZE != 3'b011 || pastTrans != 2'b01)
       begin
         HRESP <= 1'b1;
