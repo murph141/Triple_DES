@@ -133,14 +133,20 @@ module tb_System();
     HWRITE = 1'b0;
     HTRANS = 2'b00;
     HBURST = 3'b000;
-    HSIZE = 3'b011;
-    HPROT = 4'h1;
+    HSIZE = 3'b000;
+    HPROT = 4'h0;
     HADDR = '0;
     HWDATA = '0;
     encryptedChunk = '0;
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    HMASTLOCK = 1'b0;
+    HWRITE = 1'b0;
+    HTRANS = 2'b00;
+    HBURST = 3'b000;
+    HSIZE = 3'b011;
+    HPROT = 4'h1;
 
     @(posedge HCLK);
   endtask
