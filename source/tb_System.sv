@@ -19,7 +19,9 @@ module tb_System();
   logic [3:0] HPROT;
   logic [31:0] HADDR;
   logic [63:0] HRDATA, HWDATA;
-  logic [63:0] encryptedChunk;
+  logic [63:0] encryptedChunk, correctData;
+
+  assign correctData = (encryptedChunk == 64'h0000000000000000 || encryptedChunk == 64'hffffffffffffffff) ? 'x : encryptedChunk;
 
   System DUT
   (
@@ -54,6 +56,8 @@ module tb_System();
 
     incorrectSlave();
 
+    decrypt();
+
     $finish;
   end
 
@@ -83,7 +87,7 @@ module tb_System();
     #CHECK_DELAY;
     HMASTLOCK = 1'b0;
     HWRITE = 1'b1;
-    HTRANS = 2'b00;
+    HTRANS = 2'b10;
     HBURST = 3'b000;
     HSIZE = 3'b011;
     HPROT = 4'h1;
