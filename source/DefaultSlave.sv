@@ -56,6 +56,11 @@ module DefaultSlave
         HRESP <= 1'b1;
         HREADYOUT <= 1'b1;
       end
+      else if(pastAddress < 32'h00001400 && pastSelect == 1'b1)
+      begin
+        HRESP <= 1'b1;
+        HREADYOUT <= 1'b0;
+      end
       else if(pastTrans == 2'b00)
       begin
         HRESP <= 1'b0;

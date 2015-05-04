@@ -52,8 +52,47 @@ module tb_System();
 
     encrypt();
 
+    incorrectSlave();
+
     $finish;
   end
+
+
+  task incorrectSlave();
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HRESET = 1'b0;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HRESET = 1'b1;
+    HADDR = '1;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HMASTLOCK = 1'b0;
+    HWRITE = 1'b0;
+    HTRANS = 2'b00;
+    HBURST = 3'b000;
+    HSIZE = 3'b000;
+    HPROT = 4'h0;
+    HWDATA = '0;
+    encryptedChunk = '0;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HMASTLOCK = 1'b0;
+    HWRITE = 1'b1;
+    HTRANS = 2'b00;
+    HBURST = 3'b000;
+    HSIZE = 3'b011;
+    HPROT = 4'h1;
+
+    @(posedge HCLK);
+
+    wait8();
+    wait8();
+  endtask
 
 
   task decrypt();
@@ -87,9 +126,8 @@ module tb_System();
   task encrypt();
     init();
 
-    setup(1'b0, 64'h736865726c6f636b, 64'h64736B65776A7272, 64'h6b776c6f70617772, 64'h5368656c6c73686f);
+    setup(1'b1, 64'h736865726c6f636b, 64'h64736B65776A7272, 64'h6b776c6f70617772, 64'h5368656c6c73686f);
 
-    sendData(64'h5368656c6c73686f);
     sendData(64'h636b2c20616c736f);
     sendData(64'h206b6e6f776e2061);
     sendData(64'h732042617368646f);
@@ -268,6 +306,7 @@ module tb_System();
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
     HTRANS = 2'b00;
+    HADDR = '0;
 
     @(posedge HCLK);
     #CLK_PERIOD;
