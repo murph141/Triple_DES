@@ -19,7 +19,9 @@ module tb_System();
   logic [3:0] HPROT;
   logic [31:0] HADDR;
   logic [63:0] HRDATA, HWDATA;
-  logic [63:0] encryptedChunk;
+  logic [63:0] encryptedChunk, correctData;
+
+  assign correctData = (encryptedChunk == 64'h0000000000000000 || encryptedChunk == 64'hffffffffffffffff) ? 'x : encryptedChunk;
 
   System DUT
   (
@@ -48,6 +50,56 @@ module tb_System();
 
   initial
   begin
+    decrypt();
+
+    encrypt();
+
+    incorrectSlave();
+
+    decrypt();
+
+    $finish;
+  end
+
+
+  task incorrectSlave();
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HRESET = 1'b0;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HRESET = 1'b1;
+    HADDR = '1;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HMASTLOCK = 1'b0;
+    HWRITE = 1'b0;
+    HTRANS = 2'b00;
+    HBURST = 3'b000;
+    HSIZE = 3'b000;
+    HPROT = 4'h0;
+    HWDATA = '0;
+    encryptedChunk = '0;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
+    HMASTLOCK = 1'b0;
+    HWRITE = 1'b1;
+    HTRANS = 2'b10;
+    HBURST = 3'b000;
+    HSIZE = 3'b011;
+    HPROT = 4'h1;
+
+    @(posedge HCLK);
+
+    wait8();
+    wait8();
+  endtask
+
+
+  task decrypt();
     init();
 
     setup(1'b0, 64'h6b776c6f70617772, 64'h64736B65776A7272, 64'h736865726c6f636b, 64'h14fead4c23fe9280);
@@ -72,9 +124,36 @@ module tb_System();
     receiveData();
 
     wait8();
+  endtask
 
-    $finish;
-  end
+
+  task encrypt();
+    init();
+
+    setup(1'b1, 64'h736865726c6f636b, 64'h64736B65776A7272, 64'h6b776c6f70617772, 64'h5368656c6c73686f);
+
+    sendData(64'h636b2c20616c736f);
+    sendData(64'h206b6e6f776e2061);
+    sendData(64'h732042617368646f);
+    sendData(64'h6f722c2069732061);
+    sendData(64'h2066616d696c7920);
+
+    sendReceiveData(64'h6f66207365637572);
+    sendReceiveData(64'h6974792062756773);
+    sendReceiveData(64'h20696e2074686520);
+    sendReceiveData(64'h776964656c792075);
+
+    receiveData();
+    receiveData();
+    receiveData();
+    receiveData();
+    receiveData();
+    receiveData();
+    receiveData();
+
+    wait8();
+  endtask
+
 
   task wait8();
     #(CLK_PERIOD * 8);
@@ -88,19 +167,28 @@ module tb_System();
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    HRESET = 1'b1;
+
+    @(posedge HCLK);
+    #CHECK_DELAY;
     HMASTLOCK = 1'b0;
     HWRITE = 1'b0;
     HTRANS = 2'b00;
     HBURST = 3'b000;
-    HSIZE = 3'b011;
-    HPROT = 4'h1;
+    HSIZE = 3'b000;
+    HPROT = 4'h0;
     HADDR = '0;
     HWDATA = '0;
     encryptedChunk = '0;
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    HRESET = 1'b1;
+    HMASTLOCK = 1'b0;
+    HWRITE = 1'b0;
+    HTRANS = 2'b00;
+    HBURST = 3'b000;
+    HSIZE = 3'b011;
+    HPROT = 4'h1;
 
     @(posedge HCLK);
   endtask
@@ -222,6 +310,7 @@ module tb_System();
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
     HTRANS = 2'b00;
+    HADDR = '0;
 
     @(posedge HCLK);
     #CLK_PERIOD;
