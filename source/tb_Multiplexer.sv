@@ -6,13 +6,15 @@
 // Version:     1.0  Initial Design Entry
 // Description: Used to test the bus multiplexer.
 
+// Tests the AHB-Lite Interface's Multiplexer's functionality
 module tb_Multiplexer();
 
   localparam WAIT = 5;
 
-  logic muxSelect, HREADY1, HREADY2, HRESP1, HRESP2, HREADY, HRESP;
+  logic HREADY, HREADY1, HREADY2, HRESP, HRESP1, HRESP2, muxSelect;
   logic [63:0] HRDATA, HRDATA1, HRDATA2;
 
+  // Instantiate the Multiplexer
   Multiplexer DUT
   (
     .muxSelect(muxSelect),
@@ -40,6 +42,7 @@ module tb_Multiplexer();
     $finish;
   end
 
+  // Set the values coming in to the Multiplexer and the select line
   task setupValues(logic select, logic HREADY_1, logic HREADY_2, logic HRESP_1, logic HRESP_2, logic [63:0] HRDATA_1, logic [63:0] HRDATA_2);
     #WAIT;
 

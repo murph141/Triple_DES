@@ -8,6 +8,7 @@
 //              According to specifications, this slave needs to be present if the system design does not contain a completely filled memory map.
 
 
+// This save will repond to events in the address range of 0x00001400 to 0xFFFFFFFF
 module DefaultSlave
 (
   input logic HCLK,
@@ -28,7 +29,7 @@ module DefaultSlave
   output logic [63:0] HRDATA
 );
 
-  logic pastTrans, pastSelect, pastWrite;
+  logic pastSelect, pastTrans, pastWrite;
   logic [31:0] pastAddress;
   logic [63:0] tempData;
 
@@ -36,21 +37,25 @@ module DefaultSlave
   begin
     if(HRESET == 1'b0)
     begin
+      // Reset all of the temp values
       pastTrans <= 2'b00;
       pastSelect <= 1'b0;
       pastAddress <= '0;
       pastWrite <= 1'b1;
+      HRESP <= 1'b0;
 
       // Slaves must assert HREADYOUT during reset as per specification
       HREADYOUT <= 1'b1;
     end
     else
     begin
+      // Set all of the temp values to their previous values
       pastTrans <= HTRANS;
       pastSelect <= HSEL;
       pastAddress <= HADDR;
       pastWrite <= HWRITE;
 
+      // Take care of all the error checks and responses
       if(HRESP == 1'b1 && HREADY == 1'b0)
       begin
         HRESP <= 1'b1;
@@ -76,6 +81,8 @@ module DefaultSlave
         HRESP <= 1'b1;
         HREADYOUT <= 1'b0;
       end
+
+      // Read or write data, depending on the situation
       else if(pastSelect == 1'b1)
       begin
         if(pastWrite == 1'b1)
@@ -89,11 +96,5 @@ module DefaultSlave
       end
     end
   end
-
-  /* TODO
-  always_ff @ (posedge HCLK)
-  begin
-  end
-  */
 
 endmodule

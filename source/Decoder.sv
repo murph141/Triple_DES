@@ -6,12 +6,15 @@
 // Version:     1.0  Initial Design Entry
 // Description: Used to decode HADDR, and select the appropriate slave.
 
+// Used to decode the address, and select the appropriate slave
 module Decoder
 (
   input logic [31:0] HADDR,
   output logic muxSelect
 );
 
+  // Determine whether the AHB-Lite Slave Controller of the Default Slave is
+  // being accessed
   always_comb
   begin
     if(HADDR >= 32'h00000000 && HADDR < 32'h00001400)
