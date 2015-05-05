@@ -6,6 +6,7 @@
 // Version:     1.0  Initial Design Entry
 // Description: The AHB-Lite Slave Controller for our Triple DES design.
 
+// This slave controller will respond to requests with HADDR ranging from 0x00000000 to 0x000013FF
 module AHBLiteSlaveController
 (
   input logic HCLK,
@@ -37,22 +38,18 @@ module AHBLiteSlaveController
 
 );
 
-  logic [31:0] pastAddress;
-  logic pastWrite, nextEnable, pastSelect;
+  logic nextEnable, oldEncryptionType, pastSelect, pastWrite;
   logic [1:0] pastTrans;
-
-  logic [63:0] oldKey1, oldKey2, oldKey3, oldData;
-  logic oldEncryptionType;
-
-  //assign HREADYOUT = 1'b1;
+  logic [31:0] pastAddress;
+  logic [63:0] oldData, oldKey1, oldKey2, oldKey3;
 
   always_ff @ (posedge HCLK, negedge HRESET)
   begin
     if(HRESET == 1'b0)
     begin
-      // HTRANS, HSEL
+      // Reset all of the temp values
       pastAddress <= '0;
-      pastWrite <= 1'b0;
+      pastWrite <= 1'b1;
       pastSelect <= 1'b0;
       pastTrans <= 2'b00;
       HRESP <= 1'b0;
@@ -64,12 +61,14 @@ module AHBLiteSlaveController
 
     else
     begin
+      // Sample the values
       pastAddress <= HADDR;
       pastWrite <= HWRITE;
       pastSelect <= HSEL;
       pastTrans <= HTRANS;
       enable <= nextEnable;
 
+      // Take care of error responses (Checks all of the conditions)
       if(HRESP == 1'b1 && HREADY == 1'b0)
       begin
         HRESP <= 1'b1;
@@ -102,6 +101,7 @@ module AHBLiteSlaveController
   begin
     if(HREADY == 1'b1 && pastWrite == 1'b1 && pastSelect == 1'b1 && pastTrans != 2'b00)
     begin
+      // Check the current address, and address the appropriate value
       if(pastAddress < 32'h00000400)
         begin
           encryptionType <= HWDATA[0];
@@ -138,9 +138,7 @@ module AHBLiteSlaveController
           data <= oldData;
         end
 
-      // Default case since HSEL won't point here unless the address is in the
-      // correct range
-      else if(pastAddress < 32'h000014000)
+      else if(pastAddress < 32'h00001400)
         begin
           encryptionType <= oldEncryptionType;
           key1 <= oldKey1;
@@ -150,6 +148,7 @@ module AHBLiteSlaveController
         end
       end
 
+    // Determine whether to send data, or zero it out
     else if(HREADY == 1'b1 && pastWrite == 1'b0 && outputEnable == 1'b1 && pastSelect == 1'b1 && pastTrans != 2'b00)
     begin
       HRDATA <= outputData;
@@ -160,6 +159,7 @@ module AHBLiteSlaveController
     end
   end
 
+  // Assign the next variables
   assign nextEnable = (pastAddress >= 32'h00001000 && pastAddress < 32'h00001400) && (HRESP == 1'b0);
   assign oldEncryptionType = encryptionType;
   assign oldKey1 = key1;

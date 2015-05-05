@@ -6,6 +6,7 @@
 // Version:     1.0  Initial Design Entry
 // Description: Multiplexer that helps divert the correct signals to the AHB-Lite bus.
 
+// Used to select the correct signals to output on to the AHB-Lite Bus
 module Multiplexer
 (
   input logic muxSelect,
@@ -21,6 +22,8 @@ module Multiplexer
   output logic [63:0] HRDATA
 );
 
+  // Select either the signals from the AHB-Lite Slave Controller or the
+  // Default Slave
   always_comb
   begin
     if(muxSelect == 1'b0)
