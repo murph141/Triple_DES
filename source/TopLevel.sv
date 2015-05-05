@@ -6,6 +6,7 @@
 // Version:     1.0  Initial Design Entry
 // Description: Overall block of our Triple DES implementation.
 
+// Used to connect the AHB-Lite Interface and the Triple DES block
 module TopLevel
 (
   input logic HCLK,
@@ -24,11 +25,12 @@ module TopLevel
   output logic [63:0] HRDATA
 );
 
-  logic outputEnable, enable, encryptionType, muxSelect, muxSelect_ff;
+  logic enable, encryptionType, muxSelect, muxSelect_ff, outputEnable;
   logic HREADYOUT_1, HREADYOUT_2, HRESP_1, HRESP_2;
   logic [63:0] HRDATA_1, HRDATA_2;
-  logic [63:0] outputData, data, key1, key2, key3;
+  logic [63:0] data, key1, key2, key3, outputData;
 
+  // Instantiate the Slave Controller
   AHBLiteSlaveController A0
   (
     .HCLK(HCLK),
@@ -59,6 +61,7 @@ module TopLevel
     .key3(key3)
   );
 
+  // Instantiate the Default Slave
   DefaultSlave D0
   (
     .HCLK(HCLK),
@@ -78,15 +81,17 @@ module TopLevel
     .HREADYOUT(HREADYOUT_2)
   );
 
+  // Instantiate the Decoder
   Decoder Dec0
   (
     .HADDR(HADDR),
     .muxSelect(muxSelect)
   );
 
+  // Instantiate the Multiplexer
   Multiplexer M0
   (
-    .muxSelect(muxSelect_ff),
+    .muxSelect(muxSelect),
     .HREADYOUT_1(HREADYOUT_1),
     .HREADYOUT_2(HREADYOUT_2),
     .HRESP_1(HRESP_1),
@@ -98,6 +103,7 @@ module TopLevel
     .HRDATA(HRDATA)
   );
 
+  // Instantiate the Triple DES Block
   triple_DES_block T0
   (
     .clk(HCLK),
@@ -112,6 +118,7 @@ module TopLevel
     .done(outputEnable)
   );
 
+  // Clock the muxSelect signal on the rising edge of the HREADY signal
   always_ff @ (posedge HREADY, negedge HRESET)
   begin
     if(HRESET == 1'b0)

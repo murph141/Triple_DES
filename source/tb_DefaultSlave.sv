@@ -11,15 +11,17 @@ module tb_DefaultSlave();
   localparam CLK_PERIOD = 5;
   localparam CHECK_DELAY = (CLK_PERIOD / 5.0);
 
-  logic HCLK, HRESET, HMASTLOCK, HREADY, HSEL, HWRITE, HREADYOUT;
+  logic HCLK, HMASTLOCK, HREADY, HREADYOUT, HRESET, HSEL, HWRITE;
   logic [1:0] HTRANS;
   logic [2:0] HBURST, HSIZE;
   logic [3:0] HPROT;
   logic [31:0] HADDR;
   logic [63:0] HRDATA, HWDATA;
 
+  // HREADYOUT is the next HREADY
   assign HREADY = HREADYOUT;
 
+  // Instantiate the Default Slave
   DefaultSlave DUT
   (
     .HCLK(HCLK),
@@ -39,6 +41,7 @@ module tb_DefaultSlave();
     .HRDATA(HRDATA)
   );
 
+  // Setup the clock
   always
   begin
     HCLK = 1'b0;
@@ -55,6 +58,8 @@ module tb_DefaultSlave();
     $finish;
   end
 
+
+  // Initialize the system
   task init();
     @(posedge HCLK);
     #CHECK_DELAY;

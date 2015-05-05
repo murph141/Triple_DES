@@ -13,7 +13,7 @@ module tb_System();
   localparam CLK_PERIOD = 5; // 200 MHz clock
   localparam CHECK_DELAY = (CLK_PERIOD / 5.0);
 
-  logic HCLK, HRESET, HMASTLOCK, HREADY, HRESP, HWRITE;
+  logic HCLK, HMASTLOCK, HREADY, HRESET, HRESP, HWRITE;
   logic [1:0] HTRANS;
   logic [2:0] HBURST, HSIZE;
   logic [3:0] HPROT;
@@ -21,8 +21,10 @@ module tb_System();
   logic [63:0] HRDATA, HWDATA;
   logic [63:0] encryptedChunk, correctData;
 
+  // Make sure that only the correct data is shown
   assign correctData = (encryptedChunk == 64'h0000000000000000 || encryptedChunk == 64'hffffffffffffffff) ? 'x : encryptedChunk;
 
+  // Instantiate the entire system
   System DUT
   (
     .HCLK(HCLK),
@@ -40,6 +42,7 @@ module tb_System();
     .HRESP(HRESP)
   );
 
+  // Setup the clock
   always
   begin
     HCLK = 1'b0;
@@ -62,6 +65,7 @@ module tb_System();
   end
 
 
+  // Shows the functionality of the system when an incorrect slave is addressed
   task incorrectSlave();
     @(posedge HCLK);
     #CHECK_DELAY;
@@ -99,6 +103,7 @@ module tb_System();
   endtask
 
 
+  // Decrypts given values (Decrypted output should be ASCII values)
   task decrypt();
     init();
 
@@ -127,6 +132,7 @@ module tb_System();
   endtask
 
 
+  // Encrypts given values (Encrypted output should be input for the decrypt task)
   task encrypt();
     init();
 
@@ -155,6 +161,7 @@ module tb_System();
   endtask
 
 
+  // Waits 8 clock periods
   task wait8();
     #(CLK_PERIOD * 8);
   endtask
@@ -207,26 +214,31 @@ module tb_System();
     
     @(posedge HCLK);
     #CHECK_DELAY;
+    while(HREADY == 1'b0);
     HWDATA = encDec;
     HADDR = 32'h00000400;
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    while(HREADY == 1'b0);
     HWDATA = keyOne;
     HADDR = 32'h00000800;
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    while(HREADY == 1'b0);
     HWDATA = keyTwo;
     HADDR = 32'h00000C00;
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    while(HREADY == 1'b0);
     HWDATA = keyThree;
     HADDR = 32'h00001000;
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    while(HREADY == 1'b0);
     HWDATA = inData;
     HADDR = '0;
     HTRANS = 2'b00;
@@ -244,6 +256,7 @@ module tb_System();
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    while(HREADY == 1'b0);
     HWDATA = newData;
     HADDR = '0;
     HTRANS = 2'b00;
@@ -267,6 +280,7 @@ module tb_System();
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    while(HREADY == 1'b0);
     HWDATA = newData;
     HADDR = '0;
     HTRANS = 2'b00;
@@ -284,6 +298,7 @@ module tb_System();
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    while(HREADY == 1'b0);
     HADDR = '0;
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
@@ -293,6 +308,8 @@ module tb_System();
     #CLK_PERIOD;
   endtask
 
+
+  // Receives data after data has stopped being sent
   task receiveData();
     #CHECK_DELAY;
     HADDR = '0;
@@ -307,6 +324,7 @@ module tb_System();
 
     @(posedge HCLK);
     #CHECK_DELAY;
+    while(HREADY == 1'b0);
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
     HTRANS = 2'b00;

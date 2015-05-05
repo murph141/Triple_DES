@@ -13,7 +13,7 @@ module tb_TopLevel();
   localparam CLK_PERIOD = 5; // 200 MHz clock
   localparam CHECK_DELAY = (CLK_PERIOD / 5.0);
 
-  logic HCLK, HRESET, HMASTLOCK, HREADY, HRESP, HWRITE;
+  logic HCLK, HMASTLOCK, HREADY, HRESET, HRESP, HWRITE;
   logic [1:0] HTRANS;
   logic [2:0] HBURST, HSIZE;
   logic [3:0] HPROT;
@@ -21,6 +21,7 @@ module tb_TopLevel();
   logic [63:0] HRDATA, HWDATA;
   logic [63:0] encryptedChunk;
 
+  // Instantiate the TopLevel Block
   TopLevel DUT
   (
     .HCLK(HCLK),
@@ -38,6 +39,7 @@ module tb_TopLevel();
     .HRESP(HRESP)
   );
 
+  // Setup the clock
   always
   begin
     HCLK = 1'b0;
@@ -49,20 +51,6 @@ module tb_TopLevel();
   initial
   begin
     init();
-
-    /*setup(1'b1, 64'h736865726C6F636B, 64'h64736B65776A7272, 64'h6B776C6F70617772, 64'h5368656C6C73686F);
-
-    sendData(64'h636B2C20616C736F);
-    sendData(64'h206B6E6F776E2061);
-    sendData(64'h732042617368646F);
-    sendData(64'h6F722C2069732061);
-    sendData(64'h2066616D696C7920);
-
-    sendReceiveData(64'h6F66207365637572);
-    sendReceiveData(64'h6974792062756773);
-    sendReceiveData(64'h20696E2074686520);
-    sendReceiveData(64'h776964656C792075);
-    */
 
     setup(1'b0, 64'h6b776c6f70617772, 64'h64736B65776A7272, 64'h736865726c6f636b, 64'h14fead4c23fe9280);
 
@@ -90,6 +78,7 @@ module tb_TopLevel();
     $finish;
   end
 
+  // Wait 8 clock periods
   task wait8();
     #(CLK_PERIOD * 8);
   endtask
@@ -212,6 +201,7 @@ module tb_TopLevel();
     #CLK_PERIOD;
   endtask
 
+  // After all of the data has been sent, receive output data
   task receiveData();
     #CHECK_DELAY;
     HADDR = '0;
