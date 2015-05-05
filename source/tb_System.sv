@@ -53,6 +53,25 @@ module tb_System();
 
   initial
   begin
+    demo1();
+    $finish;
+
+    demo2();
+    $finish;
+
+    demo3();
+    $finish;
+  end
+
+  task demo1();
+    encrypt();
+  endtask
+
+  task demo2();
+    decrypt();
+  endtask
+
+  task demo3();
     decrypt();
 
     encrypt();
@@ -60,10 +79,7 @@ module tb_System();
     incorrectSlave();
 
     decrypt();
-
-    $finish;
-  end
-
+  endtask
 
   // Shows the functionality of the system when an incorrect slave is addressed
   task incorrectSlave();
