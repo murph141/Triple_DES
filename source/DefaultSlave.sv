@@ -81,20 +81,15 @@ module DefaultSlave
         HRESP <= 1'b1;
         HREADYOUT <= 1'b0;
       end
-
-      // Read or write data, depending on the situation
       else if(pastSelect == 1'b1)
       begin
         if(pastWrite == 1'b1)
-        begin
           tempData <= HWDATA;
-        end
         else
-        begin
-          HRDATA <= 64'hABCDEF1234567890;
-        end
+          HRDATA <= '0;
       end
     end
   end
+
 
 endmodule

@@ -57,7 +57,7 @@ module tb_System();
 
     encrypt();
 
-    //incorrectSlave();
+    incorrectSlave();
 
     decrypt();
 
@@ -214,31 +214,31 @@ module tb_System();
     
     @(posedge HCLK);
     #CHECK_DELAY;
-    //while(HREADY == 1'b0);
+    while(HREADY == 1'b0);
     HWDATA = encDec;
     HADDR = 32'h00000400;
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    //while(HREADY == 1'b0);
+    while(HREADY == 1'b0);
     HWDATA = keyOne;
     HADDR = 32'h00000800;
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    //while(HREADY == 1'b0);
+    while(HREADY == 1'b0);
     HWDATA = keyTwo;
     HADDR = 32'h00000C00;
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    //while(HREADY == 1'b0);
+    while(HREADY == 1'b0);
     HWDATA = keyThree;
     HADDR = 32'h00001000;
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    //while(HREADY == 1'b0);
+    while(HREADY == 1'b0);
     HWDATA = inData;
     HADDR = '0;
     HTRANS = 2'b00;
@@ -256,7 +256,7 @@ module tb_System();
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    //while(HREADY == 1'b0);
+    while(HREADY == 1'b0);
     HWDATA = newData;
     HADDR = '0;
     HTRANS = 2'b00;
@@ -280,7 +280,7 @@ module tb_System();
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    //while(HREADY == 1'b0);
+    while(HREADY == 1'b0);
     HWDATA = newData;
     HADDR = '0;
     HTRANS = 2'b00;
@@ -298,7 +298,7 @@ module tb_System();
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    //while(HREADY == 1'b0);
+    while(HREADY == 1'b0);
     HADDR = '0;
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
@@ -324,7 +324,7 @@ module tb_System();
 
     @(posedge HCLK);
     #CHECK_DELAY;
-    //while(HREADY == 1'b0);
+    while(HREADY == 1'b0);
     encryptedChunk = HRDATA;
     HWRITE = 1'b1;
     HTRANS = 2'b00;

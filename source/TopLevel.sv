@@ -91,7 +91,7 @@ module TopLevel
   // Instantiate the Multiplexer
   Multiplexer M0
   (
-    .muxSelect(muxSelect_ff),
+    .muxSelect(muxSelect),
     .HREADYOUT_1(HREADYOUT_1),
     .HREADYOUT_2(HREADYOUT_2),
     .HRESP_1(HRESP_1),
