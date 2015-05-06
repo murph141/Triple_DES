@@ -25,7 +25,7 @@ module TopLevel
   output logic [63:0] HRDATA
 );
 
-  logic enable, encryptionType, muxSelect, muxSelect_ff, outputEnable;
+  logic enable, encryptionType, muxSelect, outputEnable;
   logic HREADYOUT_1, HREADYOUT_2, HRESP_1, HRESP_2;
   logic [63:0] HRDATA_1, HRDATA_2;
   logic [63:0] data, key1, key2, key3, outputData;
@@ -117,14 +117,5 @@ module TopLevel
     .output_data_block(outputData),
     .done(outputEnable)
   );
-
-  // Clock the muxSelect signal on the rising edge of the HREADY signal
-  always_ff @ (posedge HREADY, negedge HRESET)
-  begin
-    if(HRESET == 1'b0)
-      muxSelect_ff <= 1'b0;
-    else
-      muxSelect_ff <= muxSelect;
-  end
 
 endmodule
