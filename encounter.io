@@ -57,6 +57,7 @@ Pad: U49 E
 Pad: U2 E
 Pad: U50 E
 Pad: U51 E
+Pad: U52 E
 Pad: U53 E
 Pad: U54 E
 Pad: U55 E
@@ -99,8 +100,8 @@ Pad: U91 E
 Pad: U92 E
 Pad: U93 E
 Pad: U94 E
-Pad: U95 E
 
+Pad: U95 S
 Pad: U96 S
 Pad: U97 S
 Pad: U98 S
@@ -147,8 +148,8 @@ Pad: U138 S
 Pad: U139 S
 Pad: U140 S
 Pad: U141 S
-Pad: U142 S
 
+Pad: U142 W
 Pad: U143 W
 Pad: U144 W
 Pad: U145 W
@@ -193,6 +194,8 @@ Pad: U183 W PADNC
 Pad: U184 W PADNC
 Pad: U185 W PADNC
 Pad: U186 W PADNC
+Pad: U187 W PADNC
+Pad: U188 W PADNC
 
 
 
