@@ -341,7 +341,4 @@ module DES_block (
 
 	end
 
-
-
-
 endmodule

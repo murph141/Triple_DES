@@ -5,6 +5,7 @@
 // Lab Section: 337-04
 // Version:     1.0  Initial Design Entry
 // Description: wrapper file for one round of DES
+
 module DES_round_wrapper (
     input wire [31:0] in_right,
     input wire [31:0] in_left,
@@ -13,6 +14,7 @@ module DES_round_wrapper (
     output wire [31:0] out_left
 );
   
+  // Swap left and right
   assign out_left = in_right;
   
   logic [47:0] ex_perm_out;
@@ -20,6 +22,7 @@ module DES_round_wrapper (
   logic [31:0] sbox_out;
   logic [31:0] pbox_out;
 
+  // Feistel Structure
   
   expansion EX_PERM (.RE_32bit(in_right), .RE_48bit(ex_perm_out));
   
@@ -29,9 +32,7 @@ module DES_round_wrapper (
   
   PBox PBOX (.data(sbox_out), .p_data(pbox_out));
   
+  // Xor the output value from the feistel function
   assign out_right = pbox_out ^ in_left;
-  
-  
-  
 
 endmodule

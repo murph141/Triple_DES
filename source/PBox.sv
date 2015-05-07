@@ -10,6 +10,8 @@ module PBox(
   output wire [31:0] p_data
 );
 
+// Permutates the values, using a specified bit permutation
+
 assign p_data = {data[16], data[25], data[12], data[11], data[3], data[20], data[4], data[15],
                  data[31], data[17], data[9], data[6], data[27], data[14], data[1], data[22],
                  data[30], data[24], data[8], data[18], data[0], data[5], data[29], data[23],
