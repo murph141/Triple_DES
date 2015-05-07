@@ -21,12 +21,14 @@ module tb_DES_round_wrapper();
   
   logic tb_clk;
   
+  // Instantiate the round wrapper file
   DES_round_wrapper DUT (.in_right(tb_in_right),
                          .in_left(tb_in_left),
                          .round_key(tb_round_key),
                          .out_right(tb_out_right),
                          .out_left(tb_out_left));
   
+  // Generate the clock
   always
   begin
     tb_clk = 1'b0;
@@ -38,6 +40,7 @@ module tb_DES_round_wrapper();
   initial
   begin
     
+    // Send values and check assertions
     @(posedge tb_clk)
     tb_in_right = 'b00000000000000000000000000000000;
     tb_in_left = 'b00000000000000000000000000000000;
@@ -48,6 +51,7 @@ module tb_DES_round_wrapper();
     assert(tb_out_right == 'b11011000110110001101101110111100);
 
     
+    // Send values and check assertions
     @(posedge tb_clk)
     tb_in_right = 'b00000000000000000000000000000000;
     tb_in_left = 'b00000000000000000000000000000000;
@@ -57,6 +61,8 @@ module tb_DES_round_wrapper();
     assert(tb_out_left == 'b00000000000000000000000000000000);
     assert(tb_out_right == 'b00111000110110111111100111001011);
     
+
+    // Send values and check assertions
     @(posedge tb_clk)
     tb_in_right = 'b11111111111111111111111111111111;
     tb_in_left = 'b11111111111111111111111111111111;
@@ -66,6 +72,8 @@ module tb_DES_round_wrapper();
     assert(tb_out_left == 'b11111111111111111111111111111111);
     assert(tb_out_right == 'b11000111001001000000011000110100);
     
+    
+    // Send values and check assertions
     @(posedge tb_clk)
     tb_in_right = 'b11111111111111111111111111111111;
     tb_in_left = 'b11111111111111111111111111111111;
@@ -75,6 +83,8 @@ module tb_DES_round_wrapper();
     assert(tb_out_left == 'b11111111111111111111111111111111);
     assert(tb_out_right == 'b00100111001001110010010001000011);
              
+
+    // Send values and check assertions
     @(posedge tb_clk)
     tb_in_right = 'b11111111111111111111111111111111;
     tb_in_left = 'b00000000000000000000000000000000;
@@ -84,6 +94,8 @@ module tb_DES_round_wrapper();
     assert(tb_out_left == 'b11111111111111111111111111111111);
     assert(tb_out_right == 'b00111000110110111111100111001011);
     
+
+    // Send values and check assertions
     @(posedge tb_clk)
     tb_in_right = 'b11111111111111111111111111111111;
     tb_in_left = 'b00000000000000000000000000000000;
@@ -93,6 +105,8 @@ module tb_DES_round_wrapper();
     assert(tb_out_left == 'b11111111111111111111111111111111);
     assert(tb_out_right == 'b11011000110110001101101110111100);
     
+
+    // Send values and check assertions
     @(posedge tb_clk)
     tb_in_right = 'b00000000000000000000000000000000;
     tb_in_left = 'b11111111111111111111111111111111;
@@ -102,6 +116,8 @@ module tb_DES_round_wrapper();
     assert(tb_out_left == 'b00000000000000000000000000000000);
     assert(tb_out_right == 'b00100111001001110010010001000011);
     
+
+    // Send values and check assertions
     @(posedge tb_clk)
     tb_in_right = 'b00000000000000000000000000000000;
     tb_in_left = 'b11111111111111111111111111111111;
@@ -111,6 +127,8 @@ module tb_DES_round_wrapper();
     assert(tb_out_left == 'b00000000000000000000000000000000);
     assert(tb_out_right == 'b11000111001001000000011000110100);
     
+
+    // Send values and check assertions
     @(posedge tb_clk)
     tb_in_right = 'b00001111000011110000111100001111;
     tb_in_left = 'b11110000111100001111000011110000;
@@ -120,6 +138,8 @@ module tb_DES_round_wrapper();
     assert(tb_out_left == 'b00001111000011110000111100001111);
     assert(tb_out_right == 'b01010011101110100011001111101010);
     
+
+    // Send values and check assertions
     @(posedge tb_clk)
     tb_in_right = 'b10100101111100001100001111100010;
     tb_in_left = 'b10100101111100001100001111100010;  
@@ -128,9 +148,5 @@ module tb_DES_round_wrapper();
     #(CHECK_DELAY)
     assert(tb_out_left == 'b10100101111100001100001111100010);
     assert(tb_out_right == 'b10111000001000000101101001010100);
-    
-                    
-    
-    
   end  
 endmodule

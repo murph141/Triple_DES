@@ -17,8 +17,10 @@
    logic [31:0] tbp_data;
    logic tb_clk;
    
+   // Instantiate the PBox module
    PBox DUT (.data(tb_data), .p_data(tbp_data));
    
+   // Setup the clock
    always
    begin
      tb_clk = 1'b0;
@@ -29,7 +31,7 @@
    
    initial
    begin
-     
+     // Test some input values
      @(posedge tb_clk)
      tb_data = 2147483647;
      
@@ -38,8 +40,5 @@
      
      @(posedge tb_clk)
      tb_data = 'b1010101010101010101010101010101010;
-     
    end
-   
 endmodule 
-   

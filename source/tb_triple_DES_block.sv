@@ -202,11 +202,4 @@ module tb_triple_DES_block ();
             $error("3 BAD!");
 
     end
-
-
-
-
-
-
-
 endmodule

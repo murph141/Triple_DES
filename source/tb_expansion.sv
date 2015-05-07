@@ -20,8 +20,6 @@ module tb_expansion();
         .RE_48bit(tb_RE_48bit)
     );
   
- 
-    
     // Test bench procedures
     initial
     begin

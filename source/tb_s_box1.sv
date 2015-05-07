@@ -7,6 +7,7 @@
 // Description: test bench for sbox1
 `timescale 1ns / 10ps
 
+// Only test the first s_box because they are all the same
 module tb_s_box1();
   // Define parameters
     localparam    CHECK_DELAY = 2; // Check 2ns after the rising edge to allow for propagation delay
@@ -20,11 +21,11 @@ module tb_s_box1();
         .out_4bit(tb_out_4bit)
     );
   
- 
-    
     // Test bench procedures
     initial
     begin
+        // Check if values correspond correctly
+        
         tb_in_6bit = 6'd0;
         #CHECK_DELAY
         if(tb_out_4bit == 4'd14)
@@ -32,7 +33,6 @@ module tb_s_box1();
         else
         	$error("BAD");
      
-    	
     	tb_in_6bit = 6'b110010;
         #CHECK_DELAY
         if(tb_out_4bit == 4'd12)
@@ -40,7 +40,5 @@ module tb_s_box1();
         else
         	$error("BAD");
      
-    	
     end
-
 endmodule
