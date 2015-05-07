@@ -18,7 +18,11 @@ module s_box8 (
 	logic [3:0]temp_out;
 
 	assign out_4bit = temp_out;
-
+	/*
+	* This rather large case statement simple takes the first and last bit index into
+	* the rows, and the inner 4 bits to index the culumns. This is indexing into tables
+	* as specified by s-boxes online for the DES algorithm
+	*/
 	always_comb
 	begin
 		if(row == 0)
