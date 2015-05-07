@@ -75,7 +75,7 @@ module DES_block (
 	reg clear_9_16;
 	reg clear_output_counter;
 
-
+	//enable the next DES block
 	assign enable_next_block = enable_output_counter;
 
 
@@ -133,6 +133,7 @@ module DES_block (
 
 
 
+	//Register for enabling rounds 1 through 8 properly
 	always_ff @(posedge clk, negedge nrst)
 	begin
 		if(nrst == 0)
@@ -159,6 +160,8 @@ module DES_block (
 		end
 	end
 
+
+	//Register for enabling rounds 9 through 16 properly
 	always_ff @(posedge clk, negedge nrst)
 	begin
 		if(nrst == 0)
@@ -185,6 +188,7 @@ module DES_block (
 		end
 	end
 
+	////Register for enabling next DES block properly
 	always_ff @(posedge clk, negedge nrst)
 	begin
 		if(nrst == 0)

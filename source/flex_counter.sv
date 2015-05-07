@@ -26,6 +26,9 @@ module flex_counter
   reg curr_roll_flag;
   reg next_roll_flag;
   
+  /*
+  * SAME OLD FLEX COUNTER AS IN LABS
+  */
 
 
   always_ff @ (posedge clk, negedge n_rst)

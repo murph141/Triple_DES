@@ -27,6 +27,8 @@ module triple_DES_block (
 	logic[63:0] output_data_block1;
 	logic[63:0] output_data_block2;
 
+
+	//First DES block
 	DES_block DUT_DES1(
 		.clk              (clk),
 		.nrst             (nrst),
@@ -39,7 +41,7 @@ module triple_DES_block (
 
 	);
 
-
+	//Second DES block
 	DES_block DUT_DES2(
 		.clk              (clk),
 		.nrst             (nrst),
@@ -52,6 +54,7 @@ module triple_DES_block (
 
 	);
 
+	//Third DES block
 	DES_block DUT_DES3(
 		.clk              (clk),
 		.nrst             (nrst),
@@ -65,6 +68,7 @@ module triple_DES_block (
 	);
 
 
+	//Flip flop for delaying the done signal till its proper time
 	always_ff @(posedge clk, negedge nrst)
 	begin
 		if(nrst == 1'b0) 
