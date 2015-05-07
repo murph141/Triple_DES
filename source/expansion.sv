@@ -10,7 +10,10 @@ module expansion
 	input wire [31:0] RE_32bit,
 	output wire [47:0] RE_48bit
 );
-
+	/*
+	* This block appends and prepends bits onto the 4 bit nibbles
+	* as specified online for the expansion algorithm of DES
+	*/
 	assign RE_48bit = 
 	{ 
 		RE_32bit[0],  RE_32bit[31:28], RE_32bit[27],
