@@ -64,7 +64,7 @@ module roundkey
 	wire [55:0] key_15;
 	wire [55:0] key_16;
 
-
+	// First key permutation, reduces key to 56 bits
 	assign permute_key = {user_key[7],  user_key[15], user_key[23], user_key[31], user_key[39], user_key[47], user_key[55],
 						  user_key[63], user_key[6],  user_key[14], user_key[22], user_key[30], user_key[38], user_key[46], 
 						  user_key[54], user_key[62], user_key[5],  user_key[13], user_key[21], user_key[29], user_key[37], 
@@ -74,7 +74,7 @@ module roundkey
 						  user_key[50], user_key[58], user_key[3],  user_key[11],  user_key[19], user_key[27], user_key[35], 
 						  user_key[43], user_key[51], user_key[59], user_key[36], user_key[44], user_key[52], user_key[60]};
 
-
+	// Rotate left and right halves of keys
 	assign rotated_key_1 =  {permute_key[54:28], permute_key[55],    permute_key[26:0], permute_key[27]};
 	assign rotated_key_2 =  {permute_key[53:28], permute_key[55:54], permute_key[25:0], permute_key[27:26]};
 	assign rotated_key_3 =  {permute_key[51:28], permute_key[55:52], permute_key[23:0], permute_key[27:24]};
@@ -92,7 +92,7 @@ module roundkey
 	assign rotated_key_15 = {permute_key[28],    permute_key[55:29], permute_key[0],    permute_key[27:1]};
 	assign rotated_key_16 =  permute_key;
 
-
+	// Permute rotated keys to create round keys, recduce to 48 bits
 	assign key_1 = {rotated_key_1[42], rotated_key_1[39], rotated_key_1[45], rotated_key_1[32],
 					rotated_key_1[55], rotated_key_1[51], rotated_key_1[53], rotated_key_1[28],
 					rotated_key_1[41], rotated_key_1[50], rotated_key_1[35], rotated_key_1[46],
@@ -302,7 +302,8 @@ module roundkey
 					 rotated_key_16[6],  rotated_key_16[20], rotated_key_16[27], rotated_key_16[24]};
 
 
-
+	// Assign round keys based on encryption or decryption
+	// Decryption round keys are reverse order of encryption round keys
 	assign roundkey_1 = (encr_decr == 1) ? key_1 : key_16;
 	assign roundkey_2 = (encr_decr == 1) ? key_2 : key_15;
 	assign roundkey_3 = (encr_decr == 1) ? key_3 : key_14;
